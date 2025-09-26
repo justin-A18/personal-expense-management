@@ -1,39 +1,40 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-
-import { HeaderAuth } from '@/modules/auth/components/HeaderAuth';
-import { RedirectAuth } from '@/modules/auth/components/RedirectAuth';
-import { ContainerAuth } from '@/modules/auth/components/ContainerAuth';
-import { LoginSchema, loginSchema } from '../modules/auth/schemas/auth.schema';
 import { Form } from '@/modules/shared/ui/form';
+import { useRouter } from 'next/navigation';
+import { HeaderAuth } from '@/modules/auth/components/HeaderAuth';
+import { ContainerAuth } from '@/modules/auth/components/ContainerAuth';
+import {
+	RecoverPasswordSchema,
+	recoverPasswordSchema,
+} from '@/modules/auth/schemas/auth.schema';
 import { CustomInput } from '@/modules/shared/components/custom-input/CustomInput';
 import { AuthActionButton } from '@/modules/auth/components/AuthActionButton';
+import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
 
-export default function Home() {
+const RecoverPasswordPage = () => {
 	const router = useRouter();
 
 	const form = useForm({
-		resolver: zodResolver(loginSchema),
+		resolver: zodResolver(recoverPasswordSchema),
 		defaultValues: {
 			email: '',
-			password: '',
 		},
 		mode: 'onChange',
 	});
 
-	const onSubmit = (values: LoginSchema) => {
+	const onSubmit = (values: RecoverPasswordSchema) => {
 		console.log(values);
-		router.push('/admin');
+		router.push('/reset-password');
 	};
 
 	return (
 		<ContainerAuth>
 			<HeaderAuth
-				title='Login'
-				subtitle='Organiza tus gastos, cuida tu bolsillo.'
+				title='Recuperar Contraseña'
+				subtitle='Te enviaremos un email con las instrucciones para recuperar tu contraseña.'
 			/>
 			<Form {...form}>
 				<form
@@ -47,22 +48,11 @@ export default function Home() {
 						placeholder='Ingresa tu email'
 					/>
 
-					<CustomInput
-						control={form.control}
-						name='password'
-						label='Contraseña'
-						type='password'
-						placeholder='Ingresa tu contraseña'
-					/>
-
-					<RedirectAuth
-						href='/recover-password'
-						text='¿Olvidaste tu contraseña?'
-					/>
-
-					<AuthActionButton />
+					<AuthActionButton type={ACTIONS_AUTH_TYPE.RECOVER_PASSWORD} />
 				</form>
 			</Form>
 		</ContainerAuth>
 	);
-}
+};
+
+export default RecoverPasswordPage;

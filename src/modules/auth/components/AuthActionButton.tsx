@@ -13,7 +13,7 @@ export const AuthActionButton = ({
 	type = ACTIONS_AUTH_TYPE.LOGIN,
 }: AuthActionButtonProps) => {
 	return (
-		<div className='mt-4 '>
+		<div className='mt-4 w-full'>
 			<button
 				className='w-full inline-flex items-center justify-center px-4 py-3 gap-4 bg-[#C78CFF] text-black rounded-lg font-medium cursor-pointer hover:bg-[#d5adfa] transition-colors duration-300'
 				type='submit'>

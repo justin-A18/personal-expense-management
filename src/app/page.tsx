@@ -1,33 +1,17 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-
+import { AuthActionButton } from '@/modules/auth/components/AuthActionButton';
 import { HeaderAuth } from '@/modules/auth/components/HeaderAuth';
 import { RedirectAuth } from '@/modules/auth/components/RedirectAuth';
 import { ContainerAuth } from '@/modules/auth/components/ContainerAuth';
-import { LoginSchema, loginSchema } from '../modules/auth/schemas/auth.schema';
-import { Form } from '@/modules/shared/ui/form';
+
 import { CustomInput } from '@/modules/shared/components/custom-input/CustomInput';
-import { AuthActionButton } from '@/modules/auth/components/AuthActionButton';
+import { Form } from '@/modules/shared/ui/form';
 
-export default function Home() {
-	const router = useRouter();
+import { useLoginUser } from '@/modules/auth/hooks/useLoginUser';
 
-	const form = useForm({
-		resolver: zodResolver(loginSchema),
-		defaultValues: {
-			email: '',
-			password: '',
-		},
-		mode: 'onChange',
-	});
-
-	const onSubmit = (values: LoginSchema) => {
-		console.log(values);
-		router.push('/admin');
-	};
+export default function LoginPage() {
+	const { form, onSubmit } = useLoginUser();
 
 	return (
 		<ContainerAuth>

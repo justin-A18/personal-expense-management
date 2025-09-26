@@ -1,34 +1,15 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { Form } from '@/modules/shared/ui/form';
-import { useRouter } from 'next/navigation';
 import { HeaderAuth } from '@/modules/auth/components/HeaderAuth';
 import { ContainerAuth } from '@/modules/auth/components/ContainerAuth';
-import {
-	RecoverPasswordSchema,
-	recoverPasswordSchema,
-} from '@/modules/auth/schemas/auth.schema';
 import { CustomInput } from '@/modules/shared/components/custom-input/CustomInput';
 import { AuthActionButton } from '@/modules/auth/components/AuthActionButton';
 import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
+import { useRecoverPassword } from '@/modules/auth/hooks/useRecoverPassword';
 
 const RecoverPasswordPage = () => {
-	const router = useRouter();
-
-	const form = useForm({
-		resolver: zodResolver(recoverPasswordSchema),
-		defaultValues: {
-			email: '',
-		},
-		mode: 'onChange',
-	});
-
-	const onSubmit = (values: RecoverPasswordSchema) => {
-		console.log(values);
-		router.push('/reset-password');
-	};
+	const { form, onSubmit } = useRecoverPassword();
 
 	return (
 		<ContainerAuth>

@@ -4,7 +4,7 @@ import { HeaderAuth } from '@/modules/auth/components/HeaderAuth';
 import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
 import { Spinner } from '@/modules/shared/components/spinner/Spinner';
 
-const page = () => {
+const ValidateAccountPage = () => {
 	return (
 		<ContainerAuth>
 			<HeaderAuth
@@ -19,4 +19,4 @@ const page = () => {
 	);
 };
 
-export default page;
+export default ValidateAccountPage;

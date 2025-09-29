@@ -28,7 +28,7 @@ export const useRegisterUser = () => {
 	const { mutateAsync } = useMutation({
 		mutationFn: (body: RegisterUserBody) => registerUser(body),
 		onSuccess: () => {
-			//router.push('/');
+			router.push('/register/verify-email');
 		}
 	});
 

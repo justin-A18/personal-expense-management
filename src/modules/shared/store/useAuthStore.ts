@@ -1,10 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { LoginUserResponse } from "@/modules/auth/interfaces/response/login-user-response.interface";
+import { UserEntity } from "../interfaces/entities/user.entity";
 
 export interface AuthState {
 	token: string | null;
-	user: any | null;
-	setAuth: (data: Record<string, any>) => void;
+	user: UserEntity | null;
+	setAuth: (data: LoginUserResponse) => void;
 	clearAuth: () => void;
 };
 

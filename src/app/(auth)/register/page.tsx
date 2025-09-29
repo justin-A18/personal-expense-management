@@ -24,10 +24,10 @@ const RegisterPage = () => {
 					className='space-y-5 w-full'>
 					<CustomInput
 						control={form.control}
-						name='name'
-						label='Nombre'
+						name='username'
+						label='Nombre de usuario'
 						type='text'
-						placeholder='Ingresa tu nombre'
+						placeholder='Ingresa tu nombre de usuario'
 					/>
 
 					<CustomInput

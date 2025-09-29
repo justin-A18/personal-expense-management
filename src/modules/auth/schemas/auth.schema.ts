@@ -9,7 +9,7 @@ export const loginSchema = z.object({
 export type LoginSchema = z.infer<typeof loginSchema>;
 
 export const registerSchema = loginSchema.extend({
-	name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres.' }),
+	username: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres.' }),
 	confirmPassword: z.string().min(6, {
 		message: 'La contraseña de confirmación debe tener al menos 6 caracteres.',
 	}),

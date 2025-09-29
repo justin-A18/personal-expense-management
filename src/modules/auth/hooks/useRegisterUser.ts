@@ -2,6 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { RegisterSchema, registerSchema } from "../schemas/auth.schema";
+import { registerUser } from "../services/auth.service";
+import { RegisterUserBody } from "../interfaces/request";
+import { useMutation } from "@tanstack/react-query";
 
 export const useRegisterUser = () => {
 	const router = useRouter();
@@ -9,7 +12,7 @@ export const useRegisterUser = () => {
 	const form = useForm({
 		resolver: zodResolver(registerSchema),
 		defaultValues: {
-			name: '',
+			username: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
@@ -17,10 +20,17 @@ export const useRegisterUser = () => {
 		mode: 'onChange',
 	});
 
-	const onSubmit = (values: RegisterSchema) => {
-		console.log(values);
-		router.push('/');
+	const onSubmit = async (values: RegisterSchema) => {
+		const { confirmPassword, ...rest } = values;
+		await mutateAsync(rest);
 	};
+
+	const { mutateAsync } = useMutation({
+		mutationFn: (body: RegisterUserBody) => registerUser(body),
+		onSuccess: () => {
+			//router.push('/');
+		}
+	});
 
 	return {
 		form,

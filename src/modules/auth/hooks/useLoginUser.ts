@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../services/auth.service';
 import { LoginUserBody } from '../interfaces/request';
+import { useAuthStore } from '@/modules/shared/store/useAuthStore';
 
 export const useLoginUser = () => {
+	const setAuth = useAuthStore((state) => state.setAuth);
 	const router = useRouter();
 
 	const form = useForm({
@@ -24,9 +26,10 @@ export const useLoginUser = () => {
 
 	const { mutateAsync } = useMutation({
 		mutationFn: (body: LoginUserBody) => loginUser(body),
-		onSuccess: () => {
-			router.push('/admin');
-		}
+		onSuccess: (data) => {
+			setAuth(data.data);
+			//router.push('/admin');
+		},
 	});
 
 	return { form, onSubmit };

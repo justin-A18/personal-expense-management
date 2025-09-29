@@ -1,9 +1,9 @@
 'use client';
 
 import { AuthActionButton } from '@/modules/auth/components/AuthActionButton';
-import { HeaderAuth } from '@/modules/auth/components/HeaderAuth';
+import { CenteredHeader } from '@/modules/shared/components/centered-header/CenteredHeader';
 import { RedirectAuth } from '@/modules/auth/components/RedirectAuth';
-import { ContainerAuth } from '@/modules/auth/components/ContainerAuth';
+import { CenteredLayout } from '@/modules/shared/components/centered-layout/CenteredLayout';
 
 import { CustomInput } from '@/modules/shared/components/custom-input/CustomInput';
 import { Form } from '@/modules/shared/ui/form';
@@ -14,8 +14,8 @@ export default function LoginPage() {
 	const { form, onSubmit } = useLoginUser();
 
 	return (
-		<ContainerAuth>
-			<HeaderAuth
+		<CenteredLayout>
+			<CenteredHeader
 				title='Login'
 				subtitle='Organiza tus gastos, cuida tu bolsillo.'
 			/>
@@ -47,6 +47,6 @@ export default function LoginPage() {
 					<AuthActionButton />
 				</form>
 			</Form>
-		</ContainerAuth>
+		</CenteredLayout>
 	);
 }

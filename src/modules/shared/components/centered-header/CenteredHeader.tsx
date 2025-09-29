@@ -1,9 +1,9 @@
-interface HeaderAuthProps {
+interface CenteredHeaderProps {
 	title?: string;
 	subtitle?: string;
 }
 
-export const HeaderAuth = ({ subtitle, title }: HeaderAuthProps) => {
+export const CenteredHeader = ({ subtitle, title }: CenteredHeaderProps) => {
 	return (
 		<header className='flex flex-col items-center gap-4'>
 			<img

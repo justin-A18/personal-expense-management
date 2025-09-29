@@ -1,8 +1,8 @@
 'use client';
 
 import { AuthActionButton } from '@/modules/auth/components/AuthActionButton';
-import { ContainerAuth } from '@/modules/auth/components/ContainerAuth';
-import { HeaderAuth } from '@/modules/auth/components/HeaderAuth';
+import { CenteredLayout } from '@/modules/shared/components/centered-layout/CenteredLayout';
+import { CenteredHeader } from '@/modules/shared/components/centered-header/CenteredHeader';
 import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
 import { useRouter } from 'next/navigation';
 
@@ -10,8 +10,8 @@ const VerifyEmailPage = () => {
 	const router = useRouter();
 
 	return (
-		<ContainerAuth>
-			<HeaderAuth	
+		<CenteredLayout>
+			<CenteredHeader
 				title='Verifica tu correo'
 				subtitle='Te hemos enviado un email. Haz clic en el enlace para activar tu cuenta.'
 			/>
@@ -20,7 +20,7 @@ const VerifyEmailPage = () => {
 				type={ACTIONS_AUTH_TYPE.VERIFY_ACCOUNT}
 				onClick={() => router.push('/')}
 			/>
-		</ContainerAuth>
+		</CenteredLayout>
 	);
 };
 

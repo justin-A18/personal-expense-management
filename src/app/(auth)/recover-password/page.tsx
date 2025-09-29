@@ -1,8 +1,8 @@
 'use client';
 
 import { Form } from '@/modules/shared/ui/form';
-import { HeaderAuth } from '@/modules/auth/components/HeaderAuth';
-import { ContainerAuth } from '@/modules/auth/components/ContainerAuth';
+import { CenteredHeader } from '@/modules/shared/components/centered-header/CenteredHeader';
+import { CenteredLayout } from '@/modules/shared/components/centered-layout/CenteredLayout';
 import { CustomInput } from '@/modules/shared/components/custom-input/CustomInput';
 import { AuthActionButton } from '@/modules/auth/components/AuthActionButton';
 import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
@@ -12,8 +12,8 @@ const RecoverPasswordPage = () => {
 	const { form, onSubmit } = useRecoverPassword();
 
 	return (
-		<ContainerAuth>
-			<HeaderAuth
+		<CenteredLayout>
+			<CenteredHeader
 				title='Recuperar Contraseña'
 				subtitle='Te enviaremos un email con las instrucciones para recuperar tu contraseña.'
 			/>
@@ -32,7 +32,7 @@ const RecoverPasswordPage = () => {
 					<AuthActionButton type={ACTIONS_AUTH_TYPE.RECOVER_PASSWORD} />
 				</form>
 			</Form>
-		</ContainerAuth>
+		</CenteredLayout>
 	);
 };
 

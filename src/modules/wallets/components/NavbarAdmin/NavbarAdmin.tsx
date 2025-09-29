@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 export const NavbarAdmin = () => {
-	const pathname = usePathname().split('/')[2] || 'Home';
+	const pathname = usePathname().split('/')[3] || 'Home';
 
 	return (
 		<header className='w-full flex items-center justify-between p-6 border-b-2 border-[#2C2C2C]'>

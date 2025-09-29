@@ -3,7 +3,7 @@
 import {
 	CATEGORIES_COLUMNS,
 	MOCK_CATEGORIES,
-} from '@/modules/admin/modules/categories/components/columns/categories.column';
+} from '@/modules/wallets/modules/categories/components/columns/categories.column';
 import { CustomSelect } from '@/modules/shared/components/custom-select/CustomSelect';
 import { DataTable } from '@/modules/shared/components/data-table/DataTable';
 

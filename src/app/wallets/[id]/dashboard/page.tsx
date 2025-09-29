@@ -1,7 +1,7 @@
 'use client';
 
-import { GridCardContainer } from '@/modules/admin/modules/dashboard/components/grid-cards/GridCardContainer';
-import { MainActivity } from '@/modules/admin/modules/dashboard/components/main-activity/MainActivity';
+import { GridCardContainer } from '@/modules/wallets/modules/dashboard/components/grid-cards/GridCardContainer';
+import { MainActivity } from '@/modules/wallets/modules/dashboard/components/main-activity/MainActivity';
 
 const HomePage = () => {
 	return (

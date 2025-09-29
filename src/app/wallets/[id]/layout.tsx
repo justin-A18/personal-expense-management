@@ -1,4 +1,4 @@
-import { NavbarAdmin } from '@/modules/admin/components/NavbarAdmin/NavbarAdmin';
+import { NavbarAdmin } from '@/modules/wallets/components/NavbarAdmin/NavbarAdmin';
 import { SideBar } from '@/modules/shared/components/sidebar/SideBar';
 
 interface Props {

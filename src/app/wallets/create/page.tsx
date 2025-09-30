@@ -4,8 +4,10 @@ import { CenteredHeader } from '@/modules/shared/components/centered-header/Cent
 import { CenteredLayout } from '@/modules/shared/components/centered-layout/CenteredLayout';
 import { CustomControllerSelect } from '@/modules/shared/components/custom-controller-select/CustomControllerSelect';
 import { CustomInput } from '@/modules/shared/components/custom-input/CustomInput';
+import { CustomSelectAvatar } from '@/modules/shared/components/custom-select-avatar/CustomSelectAvatar';
 import { Form } from '@/modules/shared/ui/form';
-import { CreditCardIcon } from 'lucide-react';
+import { ArrowLeft, CreditCardIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 const page = () => {
@@ -18,7 +20,7 @@ const page = () => {
 	};
 
 	return (
-		<CenteredLayout>
+		<CenteredLayout isBackButton>
 			<CenteredHeader
 				hiddenLogo
 				title='Crear billetera digital'
@@ -29,6 +31,12 @@ const page = () => {
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
 					className='space-y-5 w-full'>
+					<CustomSelectAvatar
+						control={form.control}
+						name='avatar'
+						label='Selecciona un avatar'
+					/>
+
 					<CustomInput
 						control={form.control}
 						name='name'

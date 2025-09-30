@@ -33,7 +33,7 @@ export const CustomInput = <T extends FieldValues>({
 			name={name}
 			render={({ field }) => (
 				<FormItem>
-					<FormLabel className='text-[#aaaaaa]'>{label}</FormLabel>{' '}
+					<FormLabel className='text-[#aaaaaa]'>{label}</FormLabel>
 					<FormControl>
 						<div className='flex items-center relative w-full'>
 							<Input

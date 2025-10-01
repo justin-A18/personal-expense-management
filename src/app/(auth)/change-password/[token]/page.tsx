@@ -9,7 +9,7 @@ import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
 import { useResetPassword } from '@/modules/auth/hooks/useResetPassword';
 
 const ResetPasswordPage = () => {
-	const { form, handleSubmit } = useResetPassword();
+	const { form, handleSubmit, isPending } = useResetPassword();
 
 	return (
 		<CenteredLayout>
@@ -36,7 +36,10 @@ const ResetPasswordPage = () => {
 						type='password'
 						placeholder='Confirma tu contraseña'
 					/>
-					<AuthActionButton actionType={ACTIONS_AUTH_TYPE.RESET_PASSWORD} />
+					<AuthActionButton
+						disabled={isPending}
+						actionType={ACTIONS_AUTH_TYPE.RESET_PASSWORD}
+					/>
 				</form>
 			</Form>
 		</CenteredLayout>

@@ -19,7 +19,7 @@ export const useRecoverPassword = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationFn: (email: string) => resetPassword(email),
 		onSuccess: () => {
-			router.push('/');
+			router.push('/recover-password/success');
 		}
 	});
 

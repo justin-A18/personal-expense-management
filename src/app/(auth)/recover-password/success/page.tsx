@@ -6,14 +6,14 @@ import { CenteredHeader } from '@/modules/shared/components/centered-header/Cent
 import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
 import { useRouter } from 'next/navigation';
 
-const VerifyEmailPage = () => {
+const RecoverPasswordSuccessPage = () => {
 	const router = useRouter();
 
 	return (
 		<CenteredLayout>
 			<CenteredHeader
-				title='Verifica tu correo'
-				subtitle='Te hemos enviado un email. Haz clic en el enlace para activar tu cuenta.'
+				title='Revisa tu bandeja de entrada'
+				subtitle='Te enviamos un correo con las instrucciones para restablecer tu contraseña. Si no lo encuentras, revisa tu carpeta de spam o correo no deseado.'
 			/>
 
 			<AuthActionButton
@@ -24,4 +24,4 @@ const VerifyEmailPage = () => {
 	);
 };
 
-export default VerifyEmailPage;
+export default RecoverPasswordSuccessPage;

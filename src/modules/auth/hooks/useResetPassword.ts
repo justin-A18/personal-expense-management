@@ -23,6 +23,6 @@ export const useResetPassword = () => {
 
 	return {
 		form,
-		onSubmit,
+		handleSubmit: form.handleSubmit(onSubmit),
 	};
 };

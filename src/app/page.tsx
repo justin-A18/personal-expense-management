@@ -12,7 +12,7 @@ import { useLoginUser } from '@/modules/auth/hooks/useLoginUser';
 import { AuthenticatedGuard } from '@/modules/shared/guards/AuthenticatedGuard';
 
 export default function LoginPage() {
-	const { form, onSubmit } = useLoginUser();
+	const { form, handleSubmit, isPending } = useLoginUser();
 
 	return (
 		<AuthenticatedGuard mode='guest'>
@@ -23,7 +23,7 @@ export default function LoginPage() {
 				/>
 				<Form {...form}>
 					<form
-						onSubmit={form.handleSubmit(onSubmit)}
+						onSubmit={handleSubmit}
 						className='space-y-5 w-full'>
 						<CustomInput
 							control={form.control}
@@ -46,7 +46,7 @@ export default function LoginPage() {
 							text='¿Olvidaste tu contraseña?'
 						/>
 
-						<AuthActionButton />
+						<AuthActionButton disabled={isPending} />
 					</form>
 				</Form>
 			</CenteredLayout>

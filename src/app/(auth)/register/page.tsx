@@ -10,7 +10,7 @@ import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
 import { useRegisterUser } from '@/modules/auth/hooks/useRegisterUser';
 
 const RegisterPage = () => {
-	const { form, onSubmit } = useRegisterUser();
+	const { form, handleSubmit, isPending } = useRegisterUser();
 
 	return (
 		<CenteredLayout>
@@ -20,7 +20,7 @@ const RegisterPage = () => {
 			/>
 			<Form {...form}>
 				<form
-					onSubmit={form.handleSubmit(onSubmit)}
+					onSubmit={handleSubmit}
 					className='space-y-5 w-full'>
 					<CustomInput
 						control={form.control}
@@ -59,7 +59,10 @@ const RegisterPage = () => {
 						text='¿Ya tienes una cuenta? Inicia sesión.'
 					/>
 
-					<AuthActionButton type={ACTIONS_AUTH_TYPE.REGISTER} />
+					<AuthActionButton
+						disabled={isPending}
+						actionType={ACTIONS_AUTH_TYPE.REGISTER}
+					/>
 				</form>
 			</Form>
 		</CenteredLayout>

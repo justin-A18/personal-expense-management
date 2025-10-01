@@ -14,7 +14,7 @@ const ValidateAccountPage = () => {
 
 			<Spinner className='border-t-[#C78CFF]' />
 
-			{/*<AuthActionButton type={ACTIONS_AUTH_TYPE.VERIFY_ACCOUNT} /> */}
+			{/*<AuthActionButton actionType={ACTIONS_AUTH_TYPE.VERIFY_ACCOUNT} /> */}
 		</CenteredLayout>
 	);
 };

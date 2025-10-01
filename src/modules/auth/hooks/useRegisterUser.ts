@@ -25,7 +25,7 @@ export const useRegisterUser = () => {
 		await mutateAsync(rest);
 	};
 
-	const { mutateAsync } = useMutation({
+	const { mutateAsync, isPending } = useMutation({
 		mutationFn: (body: RegisterUserBody) => registerUser(body),
 		onSuccess: () => {
 			router.push('/register/verify-email');
@@ -34,6 +34,7 @@ export const useRegisterUser = () => {
 
 	return {
 		form,
-		onSubmit,
+		handleSubmit: form.handleSubmit(onSubmit),
+		isPending
 	};
 };

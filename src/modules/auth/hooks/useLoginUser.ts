@@ -24,7 +24,7 @@ export const useLoginUser = () => {
 		await mutateAsync(values);
 	};
 
-	const { mutateAsync } = useMutation({
+	const { mutateAsync, isPending } = useMutation({
 		mutationFn: (body: LoginUserBody) => loginUser(body),
 		onSuccess: (data) => {
 			setAuth(data.data);
@@ -32,5 +32,9 @@ export const useLoginUser = () => {
 		},
 	});
 
-	return { form, onSubmit };
+	return {
+		form,
+		handleSubmit: form.handleSubmit(onSubmit),
+		isPending
+	};
 };

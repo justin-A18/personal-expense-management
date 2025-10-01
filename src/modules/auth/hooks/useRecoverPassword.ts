@@ -2,6 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { RecoverPasswordSchema, recoverPasswordSchema } from "../schemas/auth.schema";
+import { resetPassword } from "../services/auth.service";
+import { useMutation } from "@tanstack/react-query";
 
 export const useRecoverPassword = () => {
 	const router = useRouter();
@@ -14,13 +16,20 @@ export const useRecoverPassword = () => {
 		mode: 'onChange',
 	});
 
-	const onSubmit = (values: RecoverPasswordSchema) => {
-		console.log(values);
-		router.push('/reset-password');
+	const { mutateAsync, isPending } = useMutation({
+		mutationFn: (email: string) => resetPassword(email),
+		onSuccess: () => {
+			router.push('/');
+		}
+	});
+
+	const onSubmit = async (values: RecoverPasswordSchema) => {
+		await mutateAsync(values.email);
 	};
 
 	return {
 		form,
-		onSubmit,
+		handleSubmit: form.handleSubmit(onSubmit),
+		isPending
 	};
 };

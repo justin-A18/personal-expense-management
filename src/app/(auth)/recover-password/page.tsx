@@ -9,7 +9,7 @@ import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
 import { useRecoverPassword } from '@/modules/auth/hooks/useRecoverPassword';
 
 const RecoverPasswordPage = () => {
-	const { form, onSubmit } = useRecoverPassword();
+	const { form, handleSubmit, isPending } = useRecoverPassword();
 
 	return (
 		<CenteredLayout hasBackButton>
@@ -19,7 +19,7 @@ const RecoverPasswordPage = () => {
 			/>
 			<Form {...form}>
 				<form
-					onSubmit={form.handleSubmit(onSubmit)}
+					onSubmit={handleSubmit}
 					className='space-y-5 w-full'>
 					<CustomInput
 						control={form.control}
@@ -29,7 +29,10 @@ const RecoverPasswordPage = () => {
 						placeholder='Ingresa tu email'
 					/>
 
-					<AuthActionButton type={ACTIONS_AUTH_TYPE.RECOVER_PASSWORD} />
+					<AuthActionButton
+						disabled={isPending}
+						actionType={ACTIONS_AUTH_TYPE.RECOVER_PASSWORD}
+					/>
 				</form>
 			</Form>
 		</CenteredLayout>

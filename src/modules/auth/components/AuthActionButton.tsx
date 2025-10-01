@@ -5,26 +5,25 @@ import { ACTIONS_AUTH_TYPE } from '../enums/auth.enum';
 import { getLabelAuthButton } from '../helpers/auth.helper';
 import { CustomAuthIcon } from './CustomAuthIcon';
 
-interface AuthActionButtonProps {
-	type?: ACTIONS_AUTH_TYPE;
-	onClick?: () => void;
+interface AuthActionButtonProps
+	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+	actionType?: ACTIONS_AUTH_TYPE;
 }
 
 export const AuthActionButton = ({
-	type = ACTIONS_AUTH_TYPE.LOGIN,
-	onClick,
+	actionType = ACTIONS_AUTH_TYPE.LOGIN,
+	...props
 }: AuthActionButtonProps) => {
 	return (
 		<div className='mt-4 w-full'>
 			<button
 				className='btn-purple-primary'
-				type='submit'
-				onClick={onClick}>
-				<CustomAuthIcon type={type} />
-				{getLabelAuthButton(type)}
+				{...props}>
+				<CustomAuthIcon type={actionType} />
+				{getLabelAuthButton(actionType)}
 			</button>
 
-			{type === ACTIONS_AUTH_TYPE.LOGIN && (
+			{actionType === ACTIONS_AUTH_TYPE.LOGIN && (
 				<Link
 					href={'/register'}
 					className='btn-gray-primary'>

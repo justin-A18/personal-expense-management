@@ -9,7 +9,7 @@ import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
 import { useResetPassword } from '@/modules/auth/hooks/useResetPassword';
 
 const ResetPasswordPage = () => {
-	const { form, onSubmit } = useResetPassword();
+	const { form, handleSubmit } = useResetPassword();
 
 	return (
 		<CenteredLayout>
@@ -19,7 +19,7 @@ const ResetPasswordPage = () => {
 			/>
 			<Form {...form}>
 				<form
-					onSubmit={form.handleSubmit(onSubmit)}
+					onSubmit={handleSubmit}
 					className='space-y-5 w-full'>
 					<CustomInput
 						control={form.control}
@@ -36,7 +36,7 @@ const ResetPasswordPage = () => {
 						type='password'
 						placeholder='Confirma tu contraseña'
 					/>
-					<AuthActionButton type={ACTIONS_AUTH_TYPE.RESET_PASSWORD} />
+					<AuthActionButton actionType={ACTIONS_AUTH_TYPE.RESET_PASSWORD} />
 				</form>
 			</Form>
 		</CenteredLayout>

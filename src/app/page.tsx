@@ -9,44 +9,47 @@ import { CustomInput } from '@/modules/shared/components/custom-input/CustomInpu
 import { Form } from '@/modules/shared/ui/form';
 
 import { useLoginUser } from '@/modules/auth/hooks/useLoginUser';
+import { AuthenticatedGuard } from '@/modules/shared/guards/AuthenticatedGuard';
 
 export default function LoginPage() {
 	const { form, onSubmit } = useLoginUser();
 
 	return (
-		<CenteredLayout>
-			<CenteredHeader
-				title='Login'
-				subtitle='Organiza tus gastos, cuida tu bolsillo.'
-			/>
-			<Form {...form}>
-				<form
-					onSubmit={form.handleSubmit(onSubmit)}
-					className='space-y-5 w-full'>
-					<CustomInput
-						control={form.control}
-						name='email'
-						label='Email'
-						type='email'
-						placeholder='Ingresa tu email'
-					/>
+		<AuthenticatedGuard mode='guest'>
+			<CenteredLayout>
+				<CenteredHeader
+					title='Login'
+					subtitle='Organiza tus gastos, cuida tu bolsillo.'
+				/>
+				<Form {...form}>
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className='space-y-5 w-full'>
+						<CustomInput
+							control={form.control}
+							name='email'
+							label='Email'
+							type='email'
+							placeholder='Ingresa tu email'
+						/>
 
-					<CustomInput
-						control={form.control}
-						name='password'
-						label='Contraseña'
-						type='password'
-						placeholder='Ingresa tu contraseña'
-					/>
+						<CustomInput
+							control={form.control}
+							name='password'
+							label='Contraseña'
+							type='password'
+							placeholder='Ingresa tu contraseña'
+						/>
 
-					<RedirectAuth
-						href='/recover-password'
-						text='¿Olvidaste tu contraseña?'
-					/>
+						<RedirectAuth
+							href='/recover-password'
+							text='¿Olvidaste tu contraseña?'
+						/>
 
-					<AuthActionButton />
-				</form>
-			</Form>
-		</CenteredLayout>
+						<AuthActionButton />
+					</form>
+				</Form>
+			</CenteredLayout>
+		</AuthenticatedGuard>
 	);
 }

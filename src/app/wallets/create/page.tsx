@@ -20,7 +20,7 @@ const page = () => {
 	};
 
 	return (
-		<CenteredLayout isBackButton>
+		<CenteredLayout hasBackButton>
 			<CenteredHeader
 				hiddenLogo
 				title='Crear billetera digital'

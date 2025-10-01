@@ -28,7 +28,7 @@ export const useLoginUser = () => {
 		mutationFn: (body: LoginUserBody) => loginUser(body),
 		onSuccess: (data) => {
 			setAuth(data.data);
-			//router.push('/admin');
+			router.push('/wallets');
 		},
 	});
 

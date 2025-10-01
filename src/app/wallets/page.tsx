@@ -4,7 +4,7 @@ import { WalletItem } from '@/modules/wallets/components/WalletItem/WalletItem';
 import { CreditCardIcon } from 'lucide-react';
 import Link from 'next/link';
 
-const page = () => {
+const WalletsPage = () => {
 	return (
 		<CenteredLayout>
 			<CenteredHeader
@@ -28,4 +28,4 @@ const page = () => {
 	);
 };
 
-export default page;
+export default WalletsPage;

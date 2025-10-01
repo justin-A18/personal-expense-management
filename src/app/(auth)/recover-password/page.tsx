@@ -12,7 +12,7 @@ const RecoverPasswordPage = () => {
 	const { form, onSubmit } = useRecoverPassword();
 
 	return (
-		<CenteredLayout isBackButton>
+		<CenteredLayout hasBackButton>
 			<CenteredHeader
 				title='Recuperar Contraseña'
 				subtitle='Te enviaremos un email con las instrucciones para recuperar tu contraseña.'

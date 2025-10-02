@@ -10,22 +10,27 @@ export interface AuthState {
 	clearAuth: () => void;
 };
 
+const initialValues = {
+	token: null,
+	user: null,
+};
+
 export const useAuthStore = create<AuthState>()(
 	persist(
-		(set) => ({
-			token: null,
-			user: null,
-			setAuth: (data) =>
-				set({
-					token: data.token,
-					user: data.user,
-				}),
-			clearAuth: () => set({ token: null, user: null }),
+		(set, get) => ({
+			...get(),
+			...initialValues,
+			setAuth: (newData: Partial<LoginUserResponse>) => {
+				set(() => ({ ...get(), ...newData }));
+			},
+			clearAuth: () => {
+				useAuthStore.persist.clearStorage();
+				set(initialValues);
+			},
 		}),
 		{
 			name: "auth-storage",
-			storage: createJSONStorage(() => localStorage),
-			partialize: (state) => ({ token: state.token, user: state.user }),
+			storage: createJSONStorage(() => sessionStorage),
 		}
 	)
 );

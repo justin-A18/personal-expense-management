@@ -1,11 +1,14 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ItemSideBar } from './ItemSideBar';
-import { SIDEBAR_ITEMS, SIDEBAR_ITEMS_BOTTOM } from './sidebar.config';
+import { SIDEBAR_ITEMS } from './sidebar.config';
+import { LogOutIcon } from 'lucide-react';
+import { useAuthStore } from '../../store/useAuthStore';
 
 export const SideBar = () => {
 	const basePath = usePathname().split('/').slice(0, 3).join('/');
+	const logout = useAuthStore((state) => state.clearAuth);
 
 	return (
 		<aside className='md:flex flex-col items-center p-4 gap-8 hidden'>
@@ -29,9 +32,9 @@ export const SideBar = () => {
 			<hr className='border-2 border-[#2C2C2C] w-4/5' />
 
 			<div className='flex flex-col gap-5'>
-				{SIDEBAR_ITEMS_BOTTOM.map((item, i) => (
-					<ItemSideBar key={i}>{item.icon}</ItemSideBar>
-				))}
+				<ItemSideBar onClick={logout}>
+					<LogOutIcon />
+				</ItemSideBar>
 			</div>
 		</aside>
 	);

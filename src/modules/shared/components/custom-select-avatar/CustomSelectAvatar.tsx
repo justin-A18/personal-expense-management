@@ -40,10 +40,8 @@ export const CustomSelectAvatar = ({
 								<button
 									type='button'
 									onClick={() => field.onChange(src.url)}
-									className={`rounded-full size-16 border-4 transition-all duration-300 cursor-pointer group relative space-y-2 ${
-										field.value === src.url
-											? 'border-white'
-											: 'border-transparent brightness-75'
+									className={`rounded-full size-16 transition-all duration-300 cursor-pointer group relative space-y-2 ${
+										field.value === src.url ? 'brightness-100' : 'brightness-75'
 									}`}>
 									<img
 										src={src.url}
@@ -53,7 +51,7 @@ export const CustomSelectAvatar = ({
 									/>
 
 									<span
-										className={`absolute bottom-0 -right-1 size-4 bg-green-400 rounded-full flex items-center justify-center  transition-opacity duration-300 text-white z-10 ${
+										className={`absolute bottom-0 right-0.5 size-4 bg-green-400 rounded-full flex items-center justify-center  transition-opacity duration-300 text-white z-10 ${
 											field.value === src.url ? 'opacity-100' : ' opacity-0'
 										}`}>
 										<CheckIcon />

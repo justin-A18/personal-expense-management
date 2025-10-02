@@ -15,8 +15,3 @@ export const SIDEBAR_ITEMS = [
 	{ href: '/example3', icon: <TrendingUpDownIcon /> },
 	{ href: '/example4', icon: <ChartPieIcon /> },
 ];
-
-export const SIDEBAR_ITEMS_BOTTOM = [
-	{ icon: <InfoIcon />, onclick: () => {} },
-	{ icon: <LogOutIcon />, onclick: () => {} },
-];

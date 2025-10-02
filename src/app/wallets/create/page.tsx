@@ -5,19 +5,13 @@ import { CenteredLayout } from '@/modules/shared/components/centered-layout/Cent
 import { CustomControllerSelect } from '@/modules/shared/components/custom-controller-select/CustomControllerSelect';
 import { CustomInput } from '@/modules/shared/components/custom-input/CustomInput';
 import { CustomSelectAvatar } from '@/modules/shared/components/custom-select-avatar/CustomSelectAvatar';
+import { CURRENCIES_OPTIONS } from '@/modules/shared/const';
 import { Form } from '@/modules/shared/ui/form';
-import { ArrowLeft, CreditCardIcon } from 'lucide-react';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
+import { useCreateWallet } from '@/modules/wallets/hooks/useCreateWallet';
+import { CreditCardIcon } from 'lucide-react';
 
 const page = () => {
-	const form = useForm({
-		mode: 'onChange',
-	});
-
-	const onSubmit = (values: any) => {
-		console.log(values);
-	};
+	const { form, handleSubmit, isPending } = useCreateWallet();
 
 	return (
 		<CenteredLayout hasBackButton>
@@ -29,7 +23,7 @@ const page = () => {
 
 			<Form {...form}>
 				<form
-					onSubmit={form.handleSubmit(onSubmit)}
+					onSubmit={handleSubmit}
 					className='space-y-5 w-full'>
 					<CustomSelectAvatar
 						control={form.control}
@@ -49,14 +43,7 @@ const page = () => {
 						label='Selecciona una moneda:'
 						control={form.control}
 						name='currency'
-						items={[
-							{ value: 'USD', label: 'Dólar Estadounidense (USD)' },
-							{ value: 'EUR', label: 'Euro (EUR)' },
-							{ value: 'JPY', label: 'Yen Japonés (JPY)' },
-							{ value: 'GBP', label: 'Libra Esterlina (GBP)' },
-							{ value: 'AUD', label: 'Dólar Australiano (AUD)' },
-							{ value: 'CAD', label: 'Dólar Canadiense (CAD)' },
-						]}
+						items={CURRENCIES_OPTIONS}
 						className='w-full max-w-full'
 						placeholder='Selecciona una moneda'
 					/>
@@ -71,7 +58,8 @@ const page = () => {
 
 					<button
 						type='submit'
-						className='btn-purple-primary w-full mt-2'>
+						className='btn-purple-primary w-full mt-2'
+						disabled={isPending}>
 						<CreditCardIcon />
 						Crear billetera
 					</button>

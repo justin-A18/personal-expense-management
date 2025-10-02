@@ -10,7 +10,7 @@ interface Props extends PropsWithChildren {
 	onClick?: () => void;
 }
 
-export const ItemSideBar = ({ children, href }: Props) => {
+export const ItemSideBar = ({ children, href, onClick }: Props) => {
 	const pathname = usePathname();
 	const isActive = pathname === href;
 	const commonClasses = `p-[10px] rounded-lg ${
@@ -30,6 +30,7 @@ export const ItemSideBar = ({ children, href }: Props) => {
 	return (
 		<button
 			type='button'
+			onClick={onClick}
 			className={cn(commonClasses, 'cursor-pointer')}>
 			{children}
 		</button>

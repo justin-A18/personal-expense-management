@@ -23,7 +23,6 @@ export interface CustomSelectProps
 
 export const CustomSelect = ({
 	items,
-	defaultValue,
 	label,
 	placeholder,
 	className,
@@ -32,9 +31,7 @@ export const CustomSelect = ({
 	return (
 		<div className='space-y-2'>
 			<Label className='text-[#aaaaaa]'>{label}</Label>
-			<Select
-				defaultValue={defaultValue}
-				{...props}>
+			<Select {...props}>
 				<SelectTrigger
 					className={cn(
 						'w-full max-w-[150px] border border-[#707070] text-white font-medium py-5',

@@ -1,9 +1,10 @@
-import { Button } from '@/modules/shared/ui/button';
+import { TemplateResults } from '@/modules/wallets/components/TemplateResults/TemplateResults';
 import { useMainActivity } from '../../hooks/useMainActivity';
-import { ACTIVITY_COLUMNS } from '../columns/activity.column';
 import { HeaderMainActivity } from './HeaderMainActivity';
 import { DataTable } from '@/modules/shared/components/data-table/DataTable';
 import { Pagination } from '@/modules/shared/components/pagination/Pagination';
+import { Skeleton } from '@/modules/shared/ui/skeleton';
+import { TRANSACTIONS_COLUMNS } from '@/modules/wallets/components/columns/transaction.column';
 
 export const MainActivity = () => {
 	const {
@@ -22,21 +23,32 @@ export const MainActivity = () => {
 				<HeaderMainActivity wallet={walletData} />
 			)}
 
-			<div className='mt-8 space-y-5'>
+			<div className='mt-8 space-y-4'>
 				<h2 className='text-2xl'>Actividad Reciente</h2>
+				{isFetchingWallet && !transactionsData ? (
+					<Skeleton />
+				) : (
+					<>
+						<DataTable
+							hideHeader
+							data={transactionsData}
+							columns={TRANSACTIONS_COLUMNS}
+							noDataComponent={
+								<TemplateResults
+									title='Sin actividad reciente'
+									description='Aún no hay movimientos registrados. Aquí aparecerán tus transacciones más recientes una vez empieces a operar.'
+								/>
+							}
+						/>
 
-				<DataTable
-					hideHeader
-					data={transactionsData}
-					columns={ACTIVITY_COLUMNS}
-				/>
-
-				<Pagination
-					onPageChange={setParams}
-					params={params}
-					totalElements={totalElements}
-					totalPages={totalPages}
-				/>
+						<Pagination
+							onPageChange={setParams}
+							params={params}
+							totalElements={totalElements}
+							totalPages={totalPages}
+						/>
+					</>
+				)}
 			</div>
 		</div>
 	);

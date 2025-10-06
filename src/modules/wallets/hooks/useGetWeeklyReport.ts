@@ -3,16 +3,17 @@ import { getReportWeekly } from "../services/transactions.service";
 import { TRANSACTION_TYPE } from "../modules/dashboard/enums";
 import { useWalletStore } from "../store/useWalletStore";
 import { mappedWeeklyReportData } from "../mappers/day.mapper";
+import { getCurrentWeekRange } from "@/modules/shared/helpers/getCurrentWeekRange";
 
 export const useGetWeeklyReport = () => {
 	const currentWallet = useWalletStore((state) => state.wallet);
 
-	const { data: reportWeekly, isFetching: isFetchingReport } = useQuery({
+	const { data: reportWeekly, isFetching: isFetchingWeeklyReport } = useQuery({
 		queryKey: ['weekly-report', { walletId: currentWallet?.id }],
 		queryFn: async () => {
 			const { data } = await getReportWeekly({
-				from: '2025-10-06',
-				to: '2025-10-12',
+				from: getCurrentWeekRange().from,
+				to: getCurrentWeekRange().to,
 				type: TRANSACTION_TYPE.INCOME,
 				walletId: currentWallet?.id ?? ''
 			});
@@ -23,6 +24,6 @@ export const useGetWeeklyReport = () => {
 
 	return {
 		reportWeekly,
-		isFetchingReport
+		isFetchingWeeklyReport
 	};
 };

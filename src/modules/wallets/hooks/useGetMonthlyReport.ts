@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { mappedMonthlyReportData } from "../mappers/month.mapper";
 import { getReportMonthly } from "../services/transactions.service";
 import { useWalletStore } from "../store/useWalletStore";
+import { getLastSixMonthsRange } from "@/modules/shared/helpers/getCurrentMonthRange";
 
 export const useGetMonthlyReport = () => {
 	const currentWallet = useWalletStore((state) => state.wallet);
@@ -10,14 +11,15 @@ export const useGetMonthlyReport = () => {
 		queryKey: ['monthly-report', { walletId: currentWallet?.id }],
 		queryFn: async () => {
 			const { data } = await getReportMonthly({
-				from: '2025-07-01',
-				to: '2025-12-31',
+				from: getLastSixMonthsRange().from,
+				to: getLastSixMonthsRange().to,
 				walletId: currentWallet?.id ?? ''
 			});
 			return mappedMonthlyReportData(data);
 		},
 		initialData: [],
 	});
+
 
 	return {
 		reportMonthly,

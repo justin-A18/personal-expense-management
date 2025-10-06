@@ -20,12 +20,14 @@ interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 	hideHeader?: boolean;
+	noDataComponent?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
 	hideHeader = false,
+	noDataComponent,
 }: DataTableProps<TData, TValue>) {
 	const table = useReactTable({
 		data,
@@ -34,54 +36,52 @@ export function DataTable<TData, TValue>({
 	});
 
 	return (
-		<div className='overflow-hidden rounded-md border-2 border-[#3C3C3C]'>
-			<Table>
+		<div className='overflow-hidden rounded-2xl border border-[#2A2A2A] bg-[#1C1C1C]/90 backdrop-blur-sm'>
+			<Table className='w-full text-sm text-gray-300'>
 				{!hideHeader && (
-					<TableHeader>
+					<TableHeader className='sticky top-0 z-10 bg-[#222222]/95 backdrop-blur-md'>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow
 								key={headerGroup.id}
-								className='odd:bg-[#373737]/50 even:bg-transparent border-b-2 border-[#3C3C3C] hover:bg-[#4C4C4C]'>
-								{headerGroup.headers.map((header) => {
-									return (
-										<TableHead
-											key={header.id}
-											className='py-4 text-white'>
-											{header.isPlaceholder
-												? null
-												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-												  )}
-										</TableHead>
-									);
-								})}
+								className='border-b border-[#333333] hover:bg-[#2b2b2b]'>
+								{headerGroup.headers.map((header) => (
+									<TableHead
+										key={header.id}
+										className='px-6 py-4 text-left font-semibold uppercase tracking-wider text-gray-400'>
+										{header.isPlaceholder
+											? null
+											: flexRender(
+													header.column.columnDef.header,
+													header.getContext(),
+											  )}
+									</TableHead>
+								))}
 							</TableRow>
 						))}
 					</TableHeader>
 				)}
-				<TableBody className='outline-none'>
+
+				<TableBody>
 					{table.getRowModel().rows?.length ? (
 						table.getRowModel().rows.map((row) => (
 							<TableRow
 								key={row.id}
-								className='odd:bg-[#373737]/50 even:bg-transparent border-b-2 border-[#3C3C3C] hover:bg-[#4C4C4C]'
-								data-state={row.getIsSelected() && 'selected'}>
+								className='border-b border-[#2E2E2E] transition duration-200 hover:bg-[#292929]/80 hover:shadow-inner'>
 								{row.getVisibleCells().map((cell) => (
 									<TableCell
 										key={cell.id}
-										className='py-4'>
+										className='px-6 py-4'>
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</TableCell>
 								))}
 							</TableRow>
 						))
 					) : (
-						<TableRow>
-							<TableCell
-								colSpan={columns.length}
-								className='h-24 text-center'>
-								No results.
+						<TableRow className='hover:bg-transparent'>
+							<TableCell className='flex items-center justify-center'>
+								{noDataComponent
+									? noDataComponent
+									: 'Sin registros disponibles'}
 							</TableCell>
 						</TableRow>
 					)}

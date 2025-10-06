@@ -5,7 +5,8 @@ const initialValues: GetAllTransactionsRequest = {
 	walletId: "",
 	category: null,
 	type: null,
-	date: null,
+	from: null,
+	to: null,
 	orderBy: null,
 };
 

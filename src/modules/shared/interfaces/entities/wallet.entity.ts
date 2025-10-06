@@ -6,5 +6,5 @@ export interface WalletEntity {
 	balance: string;
 	avatar: string;
 	currency: string;
-	user: Omit<UserEntity, 'password'>;
+	user: Omit<UserEntity, 'password' | 'isEmailVerified'>;
 }

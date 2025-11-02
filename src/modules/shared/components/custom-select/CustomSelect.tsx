@@ -17,8 +17,11 @@ export interface CustomSelectProps
 	items?: ISelectOption[];
 	defaultValue?: string;
 	label?: string;
+	labelContent?: string;
 	placeholder?: string;
 	className?: string;
+	labelClassName?: string;
+	contentClassName?: string;
 }
 
 export const CustomSelect = ({
@@ -26,11 +29,16 @@ export const CustomSelect = ({
 	label,
 	placeholder,
 	className,
+	labelClassName,
+	contentClassName,
+	labelContent,
 	...props
 }: CustomSelectProps) => {
 	return (
 		<div className='space-y-2'>
-			<Label className='text-[#aaaaaa]'>{label}</Label>
+			{label && (
+				<Label className={cn('text-[#aaaaaa]', labelClassName)}>{label}</Label>
+			)}
 			<Select {...props}>
 				<SelectTrigger
 					className={cn(
@@ -39,9 +47,13 @@ export const CustomSelect = ({
 					)}>
 					<SelectValue placeholder={placeholder} />
 				</SelectTrigger>
-				<SelectContent className='bg-[#1E1E1E] border-2 border-[#4D4D4D] text-white'>
+				<SelectContent
+					className={cn(
+						'bg-[#1E1E1E] border-2 border-[#4D4D4D] text-white',
+						contentClassName,
+					)}>
 					<SelectGroup>
-						<SelectLabel>{label}</SelectLabel>
+						<SelectLabel>{labelContent}</SelectLabel>
 						{items?.map((item) => (
 							<SelectItem
 								key={item.value}

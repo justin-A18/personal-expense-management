@@ -1,19 +1,17 @@
 import { create } from "zustand";
-import { GetAllTransactionsRequest } from "../interfaces/transactions/get-all-transactions-request.interface";
+import { AdvancedFiltersSchema } from "../modules/transactions/schema/transaction.schema";
 
-const initialValues: GetAllTransactionsRequest = {
-	walletId: "",
-	category: null,
-	type: null,
-	from: null,
-	to: null,
-	orderBy: null,
+const initialValues = {
+	type: "",
+	from: "",
+	to: "",
+	orderBy: ""
 };
 
 export interface TransactionFiltersStore {
-	filters: GetAllTransactionsRequest;
+	filters: AdvancedFiltersSchema;
 	params: Record<string, number>;
-	setFilters: (filters: Partial<GetAllTransactionsRequest>) => void;
+	setFilters: (filters: Partial<AdvancedFiltersSchema>) => void;
 	setParams: (params: Record<string, number>) => void;
 	clearFilters: () => void;
 }
@@ -26,5 +24,8 @@ export const useTransactionFiltersStore = create<TransactionFiltersStore>((set) 
 		set((state) => ({
 			filters: { ...state.filters, ...filters },
 		})),
-	clearFilters: () => set({ filters: initialValues }),
+	clearFilters: () => set({
+		filters: initialValues,
+		params: { offset: 0, limit: 10 }
+	}),
 }));

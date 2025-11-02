@@ -78,10 +78,10 @@ export function DataTable<TData, TValue>({
 						))
 					) : (
 						<TableRow className='hover:bg-transparent'>
-							<TableCell className='flex items-center justify-center'>
-								{noDataComponent
-									? noDataComponent
-									: 'Sin registros disponibles'}
+							<TableCell
+								colSpan={5}
+								className='text-center w-full'>
+								{noDataComponent ?? 'Sin registros disponibles'}
 							</TableCell>
 						</TableRow>
 					)}

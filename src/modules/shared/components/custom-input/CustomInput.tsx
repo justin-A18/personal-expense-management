@@ -9,16 +9,19 @@ import {
 import { Input } from '@/modules/shared/ui/input';
 import { Control, FieldValues, Path } from 'react-hook-form';
 import { EyeOffIcon, EyeIcon } from 'lucide-react';
+import { cn } from '../../utils/cn';
 interface CustomInputProps<T extends FieldValues>
 	extends InputHTMLAttributes<HTMLInputElement> {
 	control: Control<T>;
 	name: Path<T>;
-	label: string;
+	label?: string;
+	labelClassName?: string;
 }
 export const CustomInput = <T extends FieldValues>({
 	control,
 	label,
 	name,
+	labelClassName,
 	...inputProps
 }: CustomInputProps<T>) => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +36,11 @@ export const CustomInput = <T extends FieldValues>({
 			name={name}
 			render={({ field }) => (
 				<FormItem>
-					<FormLabel className='text-[#aaaaaa]'>{label}</FormLabel>
+					{label && (
+						<FormLabel className={cn('text-[#aaaaaa]', labelClassName)}>
+							{label}
+						</FormLabel>
+					)}
 					<FormControl>
 						<div className='flex items-center relative w-full'>
 							<Input

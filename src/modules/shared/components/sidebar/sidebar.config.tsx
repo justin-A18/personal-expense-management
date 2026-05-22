@@ -15,5 +15,5 @@ export const SIDEBAR_ITEMS = [
 	},
 	{ href: '/transactions', icon: <ReceiptTextIcon />, label: 'Transacciones' },
 	{ href: '/example3', icon: <TrendingUpIcon />, label: 'Tendencias' },
-	{ href: '/example4', icon: <ChartPieIcon />, label: 'Reportes' },
+	{ href: '/reports', icon: <ChartPieIcon />, label: 'Reportes' },
 ];

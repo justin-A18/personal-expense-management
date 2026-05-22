@@ -8,7 +8,6 @@ export const PARAMS_DEFAULT_ACTIVITY = {
 export const FILTERS_DEFAULT_ACTIVITY = {
 	from: getCurrentWeekRange().from,
 	to: getCurrentWeekRange().to,
-	category: null,
 	orderBy: null,
 	type: null,
 	walletId: null

@@ -5,6 +5,7 @@ import { ResetPasswordSchema, resetPasswordSchema } from '../schemas/auth.schema
 import { useMutation } from '@tanstack/react-query';
 import { changePassword } from '../services/auth.service';
 import { ChangePasswordBody } from '../interfaces/request';
+import { toast } from 'sonner';
 
 export const useResetPassword = () => {
 	const router = useRouter();
@@ -23,7 +24,10 @@ export const useResetPassword = () => {
 		mutationFn: (body: ChangePasswordBody) => changePassword(body),
 		onSuccess: () => {
 			router.push('/change-password/success');
-		}
+		},
+		onError: (error) => {
+			toast.error(error.message);
+		},
 	});
 
 	const onSubmit = async (values: ResetPasswordSchema) => {

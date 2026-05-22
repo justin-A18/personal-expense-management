@@ -1,13 +1,17 @@
 import { Controller, Control } from 'react-hook-form';
 import { Label } from '../../ui/label';
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon, PiggyBankIcon, WalletIcon } from 'lucide-react';
 
 export const AVATARS = [
 	{
-		label: 'Clásico',
+		description: 'Para compras, pagos y movimientos del día a día.',
+		Icon: WalletIcon,
+		label: 'Uso diario',
 		url: 'https://res.cloudinary.com/dlmvqmbtj/image/upload/v1759266228/Frame_26_fiutr7.svg',
 	},
 	{
+		description: 'Para metas, fondos separados y dinero reservado.',
+		Icon: PiggyBankIcon,
 		label: 'Ahorros',
 		url: 'https://res.cloudinary.com/dlmvqmbtj/image/upload/v1759266228/Frame_25_dwv0ts.svg',
 	},
@@ -30,41 +34,50 @@ export const CustomSelectAvatar = ({
 			name={name}
 			defaultValue={AVATARS[0].url}
 			render={({ field }) => (
-				<div className='flex flex-col gap-6 text-center font-medium text-[#aaaaaa]'>
-					{label && <Label className='text-lg sm:text-xl block'>{label}</Label>}
-					<div className='grid grid-cols-2 gap-2 place-items-center'>
-						{AVATARS.map((src, idx) => (
-							<div
-								className='space-y-2 flex flex-col items-center'
-								key={idx}>
+				<div className='flex flex-col gap-3 font-medium text-[#aaaaaa]'>
+					{label && <Label>{label}</Label>}
+					<div className='flex flex-col items-center gap-3 '>
+						{AVATARS.map((src) => {
+							const isSelected = field.value === src.url;
+							const Icon = src.Icon;
+
+							return (
 								<button
+									key={src.url}
 									type='button'
 									onClick={() => field.onChange(src.url)}
-									className={`rounded-full size-16 transition-all duration-300 cursor-pointer group relative space-y-2 ${
-										field.value === src.url ? 'brightness-100' : 'brightness-75'
+									className={`group relative flex w-full items-start gap-3 rounded-2xl border p-3 text-left transition-all duration-200 ${
+										isSelected
+											? 'border-purple-300/40 bg-purple-500/15 text-white shadow-lg shadow-purple-950/20'
+											: 'border-white/10 bg-white/[0.03] text-[#aaaaaa] hover:border-purple-300/25 hover:bg-purple-400/10 hover:text-white'
 									}`}>
-									<img
-										src={src.url}
-										alt={src.label}
-										className='w-full h-full rounded-full object-cover'
-										loading='lazy'
-									/>
+									<span
+										className={`flex size-11 shrink-0 items-center justify-center rounded-xl border transition-colors ${
+											isSelected
+												? 'border-purple-300/30 bg-purple-400/15 text-purple-100'
+												: 'border-white/10 bg-[#1e1e1e] text-purple-200'
+										}`}>
+										<Icon className='size-5' />
+									</span>
+
+									<span className='min-w-0 flex-1'>
+										<span className='block text-sm font-semibold text-white'>
+											{src.label}
+										</span>
+										<span className='mt-1 block text-xs leading-5 text-[#aaaaaa]'>
+											{src.description}
+										</span>
+									</span>
 
 									<span
-										className={`absolute bottom-0 right-0.5 size-4 bg-green-400 rounded-full flex items-center justify-center  transition-opacity duration-300 text-white z-10 ${
-											field.value === src.url ? 'opacity-100' : ' opacity-0'
+										className={`mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-purple-400 text-white transition-opacity duration-200 ${
+											isSelected ? 'opacity-100' : 'opacity-0'
 										}`}>
-										<CheckIcon />
+										<CheckIcon className='size-3.5' />
 									</span>
 								</button>
-								<span
-									className={`block font-medium text-sm sm:text-base ${
-										field.value === src.url ? 'text-white' : 'text-[#666666] '
-									}`}>
-									{src.label}
-								</span>
-							</div>
-						))}
+							);
+						})}
 					</div>
 				</div>
 			)}

@@ -42,14 +42,14 @@ export const CustomSelect = ({
 			<Select {...props}>
 				<SelectTrigger
 					className={cn(
-						'w-full max-w-[150px] border border-[#707070] text-white font-medium py-5',
+						'w-full max-w-[150px]',
 						className,
 					)}>
 					<SelectValue placeholder={placeholder} />
 				</SelectTrigger>
 				<SelectContent
 					className={cn(
-						'bg-[#1E1E1E] border-2 border-[#4D4D4D] text-white',
+						'border-white/10 bg-[#1e1e1e] text-white',
 						contentClassName,
 					)}>
 					<SelectGroup>

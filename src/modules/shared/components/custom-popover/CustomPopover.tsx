@@ -2,10 +2,10 @@ import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from '@radix-ui/react-popover';
+} from '@/modules/shared/ui/popover';
 
 interface Props {
-	children: React.ReactNode[];
+	children: [React.ReactNode, React.ReactNode];
 }
 
 export const CustomPopover = ({ children }: Props) => {
@@ -14,7 +14,12 @@ export const CustomPopover = ({ children }: Props) => {
 	return (
 		<Popover>
 			<PopoverTrigger asChild>{trigger}</PopoverTrigger>
-			<PopoverContent className='z-10 mt-2'>{content}</PopoverContent>
+			<PopoverContent
+				align='start'
+				sideOffset={8}
+				className='z-[60] overflow-hidden'>
+				{content}
+			</PopoverContent>
 		</Popover>
 	);
 };

@@ -1,11 +1,12 @@
-import { loginSchema, LoginSchema } from '../schemas/auth.schema';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
-import { loginUser } from '../services/auth.service';
-import { LoginUserBody } from '../interfaces/request';
-import { useAuthStore } from '@/modules/shared/store/useAuthStore';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useAuthStore } from "@/modules/shared/store/useAuthStore";
+import type { LoginUserBody } from "../interfaces/request";
+import { type LoginSchema, loginSchema } from "../schemas/auth.schema";
+import { loginUser } from "../services/auth.service";
 
 export const useLoginUser = () => {
 	const setAuth = useAuthStore((state) => state.setAuth);
@@ -14,10 +15,10 @@ export const useLoginUser = () => {
 	const form = useForm({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
-			email: '',
-			password: '',
+			email: "",
+			password: "",
 		},
-		mode: 'onChange',
+		mode: "onChange",
 	});
 
 	const onSubmit = async (values: LoginSchema) => {
@@ -28,13 +29,16 @@ export const useLoginUser = () => {
 		mutationFn: (body: LoginUserBody) => loginUser(body),
 		onSuccess: (data) => {
 			setAuth(data.data);
-			router.push('/wallets');
+			router.push("/wallets");
+		},
+		onError: (error) => {
+			toast.error(error.message);
 		},
 	});
 
 	return {
 		form,
 		handleSubmit: form.handleSubmit(onSubmit),
-		isPending
+		isPending,
 	};
 };

@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { WalletEntity } from "@/modules/shared/interfaces/entities/wallet.entity";
+import type { WalletEntity } from "@/modules/shared/interfaces/entities/wallet.entity";
 
 export interface WalletState {
 	wallet: WalletEntity | null;
 	setWallet: (wallet: WalletEntity) => void;
 	clearState: () => void;
-};
+}
 
 const initialValues = {
 	wallet: null,
@@ -28,6 +28,6 @@ export const useWalletStore = create<WalletState>()(
 		{
 			name: "wallet-storage",
 			storage: createJSONStorage(() => sessionStorage),
-		}
-	)
+		},
+	),
 );

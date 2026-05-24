@@ -1,93 +1,172 @@
 "use client";
 
-import {
-	ChartColumnDecreasingIcon,
-	ChevronLeftIcon,
-	ChevronRightIcon,
-	FolderOpenIcon,
-	PlusIcon,
-	TagsIcon,
-} from "lucide-react";
-import { CustomSelect } from "@/modules/shared/components/custom-select/CustomSelect";
+import { ChartColumnDecreasingIcon, FolderOpenIcon, TagsIcon } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ConfirmationModal } from "@/modules/shared/components/confirmation-modal/ConfirmationModal";
 import { DataTable } from "@/modules/shared/components/data-table/DataTable";
+import { Pagination } from "@/modules/shared/components/pagination/Pagination";
+import { Skeleton } from "@/modules/shared/ui/skeleton";
+import { TemplateResults } from "@/modules/wallets/components/TemplateResults/TemplateResults";
 import { WalletPageHeader } from "@/modules/wallets/components/WalletPageHeader/WalletPageHeader";
 import { WalletPanel } from "@/modules/wallets/components/WalletPanel/WalletPanel";
 import { WalletSection } from "@/modules/wallets/components/WalletSection/WalletSection";
 import { WalletSummaryCard } from "@/modules/wallets/components/WalletSummaryCard/WalletSummaryCard";
 import { WalletTableFooter } from "@/modules/wallets/components/WalletTableFooter/WalletTableFooter";
-import {
-	CATEGORIES_COLUMNS,
-	MOCK_CATEGORIES,
-} from "@/modules/wallets/modules/categories/components/columns/categories.column";
+import type { CategoryEntity } from "@/modules/wallets/interfaces/categories/category.interface";
+import { createCategoriesColumns } from "@/modules/wallets/modules/categories/components/columns/categories.column";
+import { CreateCategoryDrawer } from "@/modules/wallets/modules/categories/components/create-category/CreateCategoryDrawer";
+import { CategoriesFilters } from "@/modules/wallets/modules/categories/components/filters/CategoriesFilters";
+import { useCategories } from "@/modules/wallets/modules/categories/hooks/useCategories";
+import { useCategoryMutations } from "@/modules/wallets/modules/categories/hooks/useCategoryMutations";
+import type { CreateCategorySchema } from "@/modules/wallets/modules/categories/schema/category.schema";
 
 const CategoriesPage = () => {
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	const [selectedCategory, setSelectedCategory] =
+		useState<CategoryEntity | null>(null);
+	const [categoryToDelete, setCategoryToDelete] =
+		useState<CategoryEntity | null>(null);
+	const {
+		categories,
+		clearFilters,
+		filters,
+		isFetching,
+		params,
+		setFilters,
+		setParams,
+		totalElements,
+		totalPages,
+	} = useCategories();
+	const {
+		createCategory,
+		deleteCategory,
+		isCreating,
+		isDeleting,
+		isUpdating,
+		updateCategory,
+	} = useCategoryMutations(() => setCategoryToDelete(null));
+	const columns = useMemo(
+		() =>
+			createCategoriesColumns({
+				onDelete: setCategoryToDelete,
+				onEdit: (category) => {
+					setSelectedCategory(category);
+					setIsDrawerOpen(true);
+				},
+			}),
+		[],
+	);
+	const isMutating = isCreating || isUpdating;
+
+	const handleOpenCreateDrawer = () => {
+		setSelectedCategory(null);
+		setIsDrawerOpen(true);
+	};
+
+	const handleSubmitCategory = async (values: CreateCategorySchema) => {
+		if (selectedCategory) {
+			await updateCategory({ body: values, id: selectedCategory.id });
+			return;
+		}
+
+		await createCategory(values);
+	};
+
+	const handleCloseDrawer = () => {
+		setIsDrawerOpen(false);
+		setSelectedCategory(null);
+	};
+
+	const handleConfirmDelete = async () => {
+		if (!categoryToDelete) return;
+		await deleteCategory(categoryToDelete);
+	};
+
 	return (
-		<WalletSection>
-			<WalletPageHeader
-				eyebrow="Organización"
-				title="Categorías"
-				description="Clasifica tus ingresos y gastos para revisar mejor tus movimientos."
-				icon={<TagsIcon className="size-6" />}
-				action={
-					<button className="btn-purple-secondary-with-icon min-h-11 justify-center">
-						<PlusIcon className="size-4" />
-						Nueva categoría
-					</button>
-				}
-			/>
-
-			<div className="mt-5 grid gap-3 sm:grid-cols-2">
-				<WalletSummaryCard
-					icon={<FolderOpenIcon className="size-5" />}
-					label="Total"
-					value={`${MOCK_CATEGORIES.length} categorías`}
+		<>
+			<WalletSection>
+				<WalletPageHeader
+					eyebrow="Organización"
+					title="Categorías"
+					description="Clasifica tus ingresos y gastos para revisar mejor tus movimientos."
+					icon={<TagsIcon className="size-6" />}
 				/>
 
-				<WalletSummaryCard
-					icon={<ChartColumnDecreasingIcon className="size-5" />}
-					label="Vista actual"
-					value="Ingresos y gastos"
-				/>
-			</div>
-
-			<WalletPanel className="mt-5">
-				<div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-					<CustomSelect
-						label="Tipo de categoría"
-						className="w-full max-w-full sm:w-[280px]"
-						defaultValue="income"
-						placeholder="Selecciona el tipo"
-						items={[
-							{ label: "Categorías ingresos", value: "income" },
-							{ label: "Categorías gastos", value: "expense" },
-						]}
+				<div className="mt-5 grid gap-3 sm:grid-cols-2">
+					<WalletSummaryCard
+						icon={<FolderOpenIcon className="size-5" />}
+						label="Total"
+						value={`${totalElements} categorías`}
 					/>
 
-					<p className="text-sm text-[#aaaaaa]">
-						Mostrando categorías configuradas para esta billetera.
-					</p>
+					<WalletSummaryCard
+						icon={<ChartColumnDecreasingIcon className="size-5" />}
+						label="Vista actual"
+						value={filters.type || "Todas"}
+					/>
 				</div>
-			</WalletPanel>
 
-			<div className="mt-5 space-y-4">
-				<DataTable data={MOCK_CATEGORIES} columns={CATEGORIES_COLUMNS} />
+				<WalletPanel className="mt-5">
+					<CategoriesFilters
+						name={filters.name}
+						type={filters.type}
+						onClearFilters={clearFilters}
+						onOpenCreateDrawer={handleOpenCreateDrawer}
+						onSearch={setFilters}
+					/>
+				</WalletPanel>
 
-				<WalletTableFooter
-					label={`${MOCK_CATEGORIES.length} registros encontrados`}
-				>
-					<div className="flex items-center gap-2">
-						<button className="inline-flex items-center gap-2 rounded-md border border-gray-700/60 px-3 py-2 text-sm text-gray-300 transition-all duration-200 hover:border-gray-500 hover:bg-[#C78CFF]/10 hover:text-white active:scale-[0.97]">
-							<ChevronLeftIcon className="size-5 sm:size-4" />
-							<span className="hidden sm:block">Anterior</span>
-						</button>
-						<button className="inline-flex items-center gap-2 rounded-md border border-gray-700/60 px-3 py-2 text-sm text-gray-300 transition-all duration-200 hover:border-gray-500 hover:bg-[#C78CFF]/10 hover:text-white active:scale-[0.97]">
-							<span className="hidden sm:block">Siguiente</span>
-							<ChevronRightIcon className="size-5 sm:size-4" />
-						</button>
-					</div>
-				</WalletTableFooter>
-			</div>
-		</WalletSection>
+				<div className="mt-5 space-y-4">
+					{isFetching && categories.length === 0 ? (
+						<Skeleton className="min-h-[calc(100vh-300px)] w-full rounded-2xl bg-white/[0.04]" />
+					) : (
+						<>
+							<DataTable
+								data={categories}
+								columns={columns}
+								noDataComponent={
+									<TemplateResults
+										title="No hay categorías configuradas"
+										description="Ajusta los filtros o crea una nueva categoría para clasificar tus transacciones."
+									/>
+								}
+							/>
+
+							<WalletTableFooter
+								label={`${totalElements} registros encontrados`}
+							>
+								<Pagination
+									onPageChange={setParams}
+									params={params}
+									totalElements={totalElements}
+									totalPages={totalPages}
+								/>
+							</WalletTableFooter>
+						</>
+					)}
+				</div>
+			</WalletSection>
+
+			<CreateCategoryDrawer
+				isDrawerOpen={isDrawerOpen}
+				initialCategory={selectedCategory}
+				isPending={isMutating}
+				closeDrawer={handleCloseDrawer}
+				onSubmitCategory={handleSubmitCategory}
+			/>
+
+			<ConfirmationModal
+				isOpen={Boolean(categoryToDelete)}
+				isLoading={isDeleting}
+				title="Eliminar categoria"
+				description={`Esta accion eliminara "${categoryToDelete?.name ?? ""}" si no tiene restricciones asociadas.`}
+				confirmLabel="Eliminar"
+				onClose={() => setCategoryToDelete(null)}
+				onConfirm={() => {
+					void handleConfirmDelete();
+				}}
+			/>
+		</>
 	);
 };
 

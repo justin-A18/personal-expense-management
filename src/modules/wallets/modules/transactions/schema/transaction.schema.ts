@@ -7,6 +7,7 @@ export const createTransactionSchema = z.object({
 	description: z.string().min(1, "Ingresa una descripción"),
 	amount: z.string().min(1, "Ingresa un monto"),
 	date: z.string().min(1, "Selecciona una fecha"),
+	categoryId: z.string().min(1, "Selecciona una categoría"),
 });
 
 export const advancedFiltersSchema = z.object({

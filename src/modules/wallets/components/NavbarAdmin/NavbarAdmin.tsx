@@ -10,11 +10,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { CustomPopover } from "@/modules/shared/components/custom-popover/CustomPopover";
+import { SIDEBAR_ITEMS } from "@/modules/shared/components/sidebar/sidebar.config";
 import { useWalletStore } from "../../store/useWalletStore";
 import { ProfileModal } from "./ProfileModal";
 
 export const NavbarAdmin = () => {
 	const pathname = usePathname().split("/")[3];
+	const currentPage = SIDEBAR_ITEMS.find((i) => i.href === `/${pathname}`);
 	const wallet = useWalletStore((state) => state.wallet);
 	const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -22,7 +24,7 @@ export const NavbarAdmin = () => {
 		<header className="w-full flex items-center justify-between gap-4 p-4 sm:p-6 border-b-2 border-[#2C2C2C]">
 			<p className="min-w-0 truncate font-medium text-sm">
 				<span className="text-[#626262]">{wallet?.name} /</span>{" "}
-				{pathname.charAt(0).toUpperCase() + pathname.slice(1)}
+				{currentPage?.label}
 			</p>
 
 			<div className="flex shrink-0 items-center gap-2">

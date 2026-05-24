@@ -9,9 +9,14 @@ import { useFilters } from '../hooks/useFilters';
 import { AdvancedFiltersDrawer } from './AdvancedFiltersDrawer';
 import { CreateTransactionDrawer } from './CreateTransactionDrawer';
 
-export const Filters = () => {
+interface FiltersProps {
+	onOpenCreateDrawer?: () => void;
+}
+
+export const Filters = ({ onOpenCreateDrawer }: FiltersProps) => {
 	const { closeDrawer, isDrawerOpen, openDrawer, resetFilters } = useFilters();
 	const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState(false);
+	const handleOpenCreateDrawer = onOpenCreateDrawer ?? (() => setIsCreateDrawerOpen(true));
 
 	return (
 		<>
@@ -57,7 +62,7 @@ export const Filters = () => {
 					<button
 						type='button'
 						className='btn-purple-secondary-with-icon'
-						onClick={() => setIsCreateDrawerOpen(true)}>
+						onClick={handleOpenCreateDrawer}>
 						<PlusIcon className='size-4' />
 						Registrar transacción
 					</button>

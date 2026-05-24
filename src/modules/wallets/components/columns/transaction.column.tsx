@@ -2,6 +2,8 @@ import { TransactionEntity } from '@/modules/shared/interfaces/entities/transact
 import { ColumnDef } from '@tanstack/react-table';
 import { TRANSACTION_TYPE } from '../../modules/dashboard/enums';
 import { formatCurrency } from '@/modules/shared/utils/formatCurrency.utils';
+import { PencilIcon, Trash2Icon } from 'lucide-react';
+import { getCategoryIcon } from '../../modules/categories/const/category-icons';
 
 export const MOCK_TRANSACTIONS: TransactionEntity[] = [
 	{
@@ -47,6 +49,11 @@ export const MOCK_TRANSACTIONS: TransactionEntity[] = [
 		updatedAt: '2025-09-28T12:00:00Z',
 	},
 ];
+interface CreateTransactionsColumnsParams {
+	onDelete: (transaction: TransactionEntity) => void;
+	onEdit: (transaction: TransactionEntity) => void;
+}
+
 export const TRANSACTIONS_COLUMNS: ColumnDef<TransactionEntity>[] = [
 	{
 		accessorKey: 'date',
@@ -55,6 +62,25 @@ export const TRANSACTIONS_COLUMNS: ColumnDef<TransactionEntity>[] = [
 	{
 		accessorKey: 'description',
 		header: 'Descripción',
+	},
+	{
+		accessorKey: 'category',
+		header: 'Categoría',
+		cell: ({ row }) => {
+			const category = row.original.category;
+			const Icon = getCategoryIcon(category?.icon);
+
+			return (
+				<div className='flex items-center gap-3'>
+					<div className='flex size-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-purple-100'>
+						<Icon className='size-4' />
+					</div>
+					<span className='text-sm font-medium text-white'>
+						{category?.name ?? 'Sin categoría'}
+					</span>
+				</div>
+			);
+		},
 	},
 	{
 		accessorKey: 'type',
@@ -91,5 +117,34 @@ export const TRANSACTIONS_COLUMNS: ColumnDef<TransactionEntity>[] = [
 				</span>
 			);
 		},
+	},
+];
+
+export const createTransactionsColumns = ({
+	onDelete,
+	onEdit,
+}: CreateTransactionsColumnsParams): ColumnDef<TransactionEntity>[] => [
+	...TRANSACTIONS_COLUMNS,
+	{
+		id: 'actions',
+		header: 'Acciones',
+		cell: ({ row }) => (
+			<div className='flex items-center gap-2'>
+				<button
+					type='button'
+					aria-label='Editar transacción'
+					className='inline-flex size-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-[#d6d6d6] transition-colors hover:bg-purple-400/10 hover:text-white'
+					onClick={() => onEdit(row.original)}>
+					<PencilIcon className='size-4' />
+				</button>
+				<button
+					type='button'
+					aria-label='Eliminar transacción'
+					className='inline-flex size-9 items-center justify-center rounded-xl border border-red-300/20 bg-red-500/10 text-red-100 transition-colors hover:bg-red-500/20'
+					onClick={() => onDelete(row.original)}>
+					<Trash2Icon className='size-4' />
+				</button>
+			</div>
+		),
 	},
 ];

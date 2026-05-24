@@ -9,7 +9,7 @@ export const WalletSection = ({ children, className }: WalletSectionProps) => {
 	return (
 		<section
 			className={cn(
-				'w-full rounded-2xl border border-white/10 bg-[#1E1E1E] p-4 shadow-2xl shadow-black/20 sm:p-5',
+				'min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-white/10 bg-[#1E1E1E] p-4 shadow-2xl shadow-black/20 sm:p-5',
 				className,
 			)}>
 			{children}

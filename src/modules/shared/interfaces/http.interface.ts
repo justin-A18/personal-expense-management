@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 
-export type HttpMethod = "get" | "post" | "put" | "delete";
+export type HttpMethod = "get" | "post" | "put" | "patch" | "delete";
 
 export interface HttpClientOptions {
 	method?: HttpMethod;

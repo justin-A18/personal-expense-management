@@ -4,4 +4,5 @@ export interface CreateTransactionRequest {
 	amount: string;
 	date: string;
 	walletId: string;
+	categoryId: string;
 }

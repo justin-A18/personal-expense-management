@@ -2,9 +2,9 @@
 
 import { CalendarRangeIcon } from "lucide-react";
 import {
-	formatDate,
 	formatMonthLabel,
 	formatMonthValue,
+	padDatePart,
 } from "../../helpers/date-format";
 import { Button } from "../../ui/button";
 import { Calendar } from "../../ui/calendar";
@@ -56,11 +56,19 @@ export const CalendarPicker = ({
 	placeholder = "Selecciona una fecha",
 	selected,
 }: CalendarPickerProps) => {
+	const formatDisplayDate = (date: Date) => {
+		const day = padDatePart(date.getDate());
+		const month = padDatePart(date.getMonth() + 1);
+		const year = date.getFullYear();
+
+		return `${day}/${month}/${year}`;
+	};
+
 	const getLabel = (date: Date) => {
 		if (formatLabel) return formatLabel(date);
 		if (displayFormat === "month")
 			return formatMonthLabel(formatMonthValue(date));
-		return formatDate(date);
+		return formatDisplayDate(date);
 	};
 
 	const label = selected ? getLabel(selected) : placeholder;

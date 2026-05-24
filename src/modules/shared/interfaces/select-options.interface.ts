@@ -1,4 +1,4 @@
 export interface ISelectOption {
 	value: string;
-	label: string;
+	label: string | React.ReactNode;
 }

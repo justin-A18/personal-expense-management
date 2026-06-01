@@ -1,8 +1,10 @@
 import { CircleDollarSignIcon, PlusIcon, ReceiptTextIcon } from "lucide-react";
+import { Controller } from "react-hook-form";
 import { CustomControllerSelect } from "@/modules/shared/components/custom-controller-select/CustomControllerSelect";
 import { CustomDatePicker } from "@/modules/shared/components/custom-date-picker/CustomDatePicker";
 import { CustomDrawer } from "@/modules/shared/components/custom-drawer/CustomDrawer";
 import { CustomInput } from "@/modules/shared/components/custom-input/CustomInput";
+import { CustomSearchInputSelect } from "@/modules/shared/components/custom-search-input-select/CustomSearchInputSelect";
 import type { TransactionEntity } from "@/modules/shared/interfaces/entities/transaction.entity";
 import { Form } from "@/modules/shared/ui/form";
 import { TRANSACTION_TYPES } from "@/modules/wallets/constants/catalogs.const";
@@ -20,9 +22,14 @@ export const CreateTransactionDrawer = ({
 	initialTransaction,
 	isDrawerOpen,
 }: CreateTransactionDrawerProps) => {
-	const { form, handleSubmit, isPending, mode, categoriesData } =
+	const { form, handleSubmit, isPending, mode } =
 		useCreateTransaction(closeDrawer, initialTransaction, isDrawerOpen);
-	const { categoryOptions } = useTransactionCategoryOptions(categoriesData);
+	const {
+		categoryOptions,
+		categorySearch,
+		isFetchingCategories,
+		setCategorySearch,
+	} = useTransactionCategoryOptions(initialTransaction);
 
 	return (
 		<CustomDrawer isOpen={isDrawerOpen} onClose={closeDrawer}>
@@ -57,14 +64,24 @@ export const CreateTransactionDrawer = ({
 							items={TRANSACTION_TYPES}
 						/>
 
-						<CustomControllerSelect
+						<Controller
 							control={form.control}
 							name="categoryId"
-							label="Categoría"
-							labelContent="Categoría"
-							placeholder="Selecciona una categoría"
-							className="w-full max-w-full bg-[#1e1e1e]"
-							items={categoryOptions}
+							render={({ field }) => (
+								<CustomSearchInputSelect
+									label="Categoría"
+									value={field.value}
+									onValueChange={field.onChange}
+									searchValue={categorySearch}
+									onSearchChange={setCategorySearch}
+									items={categoryOptions}
+									isLoading={isFetchingCategories}
+									placeholder="Selecciona una categoría"
+									searchPlaceholder="Buscar categoría"
+									emptyMessage="No hay categorías con ese nombre."
+									error={form.formState.errors.categoryId?.message}
+								/>
+							)}
 						/>
 
 						<CustomInput

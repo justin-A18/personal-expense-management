@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import type { TransactionEntity } from "@/modules/shared/interfaces/entities/transaction.entity";
 import { CREATE_TRANSACTION_INITIAL_VALUES } from "@/modules/wallets/constants/defaults-values.const";
-import { useGetAllCategories } from "@/modules/wallets/hooks/useGetAllCategories";
 import { useWalletStore } from "@/modules/wallets/store/useWalletStore";
 import {
 	type CreateTransactionSchema,
@@ -24,8 +23,6 @@ export const useCreateTransaction = (
 		resolver: zodResolver(createTransactionSchema),
 		defaultValues: CREATE_TRANSACTION_INITIAL_VALUES,
 	});
-
-	const { categoriesData, isFetchingCategories } = useGetAllCategories();
 
 	const { createOrUpdateTransaction, isFetchingCreatingOrUpdating } =
 		useTransactionCreateOrUpdate({
@@ -63,7 +60,5 @@ export const useCreateTransaction = (
 		handleSubmit: form.handleSubmit(onSubmit),
 		isPending: isFetchingCreatingOrUpdating,
 		mode,
-		categoriesData,
-		isFetchingCategories,
 	};
 };

@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import type { CategoryType } from "@/modules/wallets/interfaces/categories/category.interface";
 import type { CategoryFilters } from "../store/useCategoryFiltersStore";
 
 interface UseCategoryFiltersDraftParams extends CategoryFilters {
@@ -6,49 +8,48 @@ interface UseCategoryFiltersDraftParams extends CategoryFilters {
 	onSearch: (filters: CategoryFilters) => void;
 }
 
+export interface CategoryFiltersFormValues {
+	name: string;
+	type: CategoryType | "all";
+}
+
+const getDefaultValues = ({
+	name,
+	type,
+}: CategoryFilters): CategoryFiltersFormValues => ({
+	name: name ?? "",
+	type: type ?? "all",
+});
+
 export const useCategoryFiltersDraft = ({
 	name,
 	onClearFilters,
 	onSearch,
 	type,
 }: UseCategoryFiltersDraftParams) => {
-	const [draftFilters, setDraftFilters] = useState<CategoryFilters>({
-		name,
-		type,
+	const form = useForm<CategoryFiltersFormValues>({
+		defaultValues: getDefaultValues({ name, type }),
 	});
 
 	useEffect(() => {
-		setDraftFilters({ name, type });
-	}, [name, type]);
+		form.reset(getDefaultValues({ name, type }));
+	}, [form, name, type]);
 
-	const handleNameChange = (nextName: string) => {
-		setDraftFilters((current) => ({
-			...current,
-			name: nextName,
-		}));
-	};
-
-	const handleTypeChange = (nextType: CategoryFilters["type"]) => {
-		setDraftFilters((current) => ({
-			...current,
-			type: nextType,
-		}));
-	};
-
-	const handleSearch = () => {
-		onSearch(draftFilters);
+	const handleSearch = (values: CategoryFiltersFormValues) => {
+		onSearch({
+			name: values.name.trim() || null,
+			type: values.type === "all" ? null : values.type,
+		});
 	};
 
 	const handleClearFilters = () => {
-		setDraftFilters({ name: null, type: null });
+		form.reset(getDefaultValues({ name: null, type: null }));
 		onClearFilters();
 	};
 
 	return {
-		draftFilters,
+		form,
 		handleClearFilters,
-		handleNameChange,
-		handleSearch,
-		handleTypeChange,
+		handleSubmit: form.handleSubmit(handleSearch),
 	};
 };

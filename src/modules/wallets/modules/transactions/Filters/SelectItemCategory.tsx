@@ -3,7 +3,7 @@ import type { CategoryEntity } from "@/modules/wallets/interfaces/categories/cat
 import { getCategoryIcon } from "../../categories/const/category-icons";
 
 interface SelectItemCategoryProps {
-	categories: CategoryEntity[];
+	categories: Pick<CategoryEntity, "icon" | "id" | "name">[];
 }
 
 export const SelectItemCategory = ({
@@ -14,7 +14,7 @@ export const SelectItemCategory = ({
 
 		return {
 			label: (
-				<div className="inline-flex gap-2 items-center">
+				<div className="inline-flex items-center gap-2">
 					<Icon />
 					<span>{category.name}</span>
 				</div>

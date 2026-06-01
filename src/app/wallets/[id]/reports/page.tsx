@@ -1,4 +1,4 @@
-import { ReportsView } from '@/modules/wallets/modules/reports/components/ReportsView';
+import { ReportsView } from "@/modules/wallets/modules/reports/components/view/ReportsView";
 
 const ReportsPage = () => {
 	return <ReportsView />;

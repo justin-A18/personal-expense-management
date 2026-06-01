@@ -1,22 +1,16 @@
 "use client";
 
 import { PlusIcon, SearchIcon, Trash2Icon } from "lucide-react";
-import { useEffect, useState } from "react";
 import { CustomSelect } from "@/modules/shared/components/custom-select/CustomSelect";
 import { Input } from "@/modules/shared/ui/input";
 import type { CategoryType } from "@/modules/wallets/interfaces/categories/category.interface";
+import { useCategoryFiltersDraft } from "../../hooks/useCategoryFiltersDraft";
+import type { CategoryFilters } from "../../store/useCategoryFiltersStore";
 
-interface CategoryFilterValues {
-	name: string;
-	type: "" | CategoryType;
-}
-
-interface CategoriesFiltersProps {
-	name: string;
+interface CategoriesFiltersProps extends CategoryFilters {
 	onClearFilters: () => void;
 	onOpenCreateDrawer: () => void;
-	onSearch: (filters: CategoryFilterValues) => void;
-	type: "" | CategoryType;
+	onSearch: (filters: CategoryFilters) => void;
 }
 
 export const CategoriesFilters = ({
@@ -26,19 +20,18 @@ export const CategoriesFilters = ({
 	onSearch,
 	type,
 }: CategoriesFiltersProps) => {
-	const [draftFilters, setDraftFilters] = useState<CategoryFilterValues>({
+	const {
+		draftFilters,
+		handleClearFilters,
+		handleNameChange,
+		handleSearch,
+		handleTypeChange,
+	} = useCategoryFiltersDraft({
 		name,
+		onClearFilters,
+		onSearch,
 		type,
 	});
-
-	useEffect(() => {
-		setDraftFilters({ name, type });
-	}, [name, type]);
-
-	const handleClearFilters = () => {
-		setDraftFilters({ name: "", type: "" });
-		onClearFilters();
-	};
 
 	return (
 		<div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
@@ -46,15 +39,10 @@ export const CategoriesFilters = ({
 				<label className="grid gap-2 text-sm font-medium text-[#d6d6d6]">
 					Nombre
 					<Input
-						value={draftFilters.name}
-						onChange={(event) =>
-							setDraftFilters((current) => ({
-								...current,
-								name: event.target.value,
-							}))
-						}
+						value={draftFilters.name ?? ""}
+						onChange={(event) => handleNameChange(event.target.value)}
 						onKeyDown={(event) => {
-							if (event.key === "Enter") onSearch(draftFilters);
+							if (event.key === "Enter") handleSearch();
 						}}
 						placeholder="Buscar categoria"
 						className="min-h-11 rounded-xl border-white/10 bg-white/[0.04] text-white placeholder:text-[#707070]"
@@ -67,10 +55,7 @@ export const CategoriesFilters = ({
 					value={draftFilters.type || "all"}
 					placeholder="Selecciona el tipo"
 					onValueChange={(value) =>
-						setDraftFilters((current) => ({
-							...current,
-							type: value === "all" ? "" : (value as CategoryType),
-						}))
+						handleTypeChange(value === "all" ? null : (value as CategoryType))
 					}
 					items={[
 						{ label: "Todas", value: "all" },
@@ -84,7 +69,7 @@ export const CategoriesFilters = ({
 				<button
 					type="button"
 					className="btn-white-primary-with-icon"
-					onClick={() => onSearch(draftFilters)}
+					onClick={handleSearch}
 				>
 					<SearchIcon className="size-4" />
 					Buscar

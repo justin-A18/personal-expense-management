@@ -1,6 +1,5 @@
-import React from 'react';
-import { useTransactionFiltersStore } from '../../../store/useTransactionFiltersStore';
-import { useGetAllTransaction } from '@/modules/wallets/hooks/useGetAllTransaction';
+import { useGetAllTransaction } from "@/modules/wallets/hooks/useGetAllTransaction";
+import { useTransactionFiltersStore } from "../../../store/useTransactionFiltersStore";
 
 export const useTransactions = () => {
 	const {

@@ -8,23 +8,28 @@ import type {
 } from "../interfaces/categories/category.interface";
 
 const buildCategoriesQuery = (
-	params: Record<string, number>,
-	filters: GetAllCategoriesRequest,
+	params?: Record<string, number>,
+	body?: GetAllCategoriesRequest,
 ) => {
-	const searchParams = new URLSearchParams({
-		limit: String(params.limit),
-		offset: String(params.offset),
-	});
+	const searchParams =
+		Object.entries(params ?? {}).length > 1
+			? new URLSearchParams({
+					limit: String(params?.limit),
+					offset: String(params?.offset),
+				})
+			: new URLSearchParams();
 
-	if (filters.type) searchParams.set("type", filters.type);
-	if (filters.name) searchParams.set("name", filters.name);
+	if (body?.type) searchParams.set("type", body.type);
+	if (body?.name) searchParams.set("name", body.name);
+
+	searchParams.set("walletId", body?.walletId ?? "");
 
 	return searchParams.toString();
 };
 
 export const getAllCategories = async (
-	filters: GetAllCategoriesRequest,
-	params: Record<string, number>,
+	filters?: GetAllCategoriesRequest,
+	params?: Record<string, number>,
 ): Promise<BaseResponse<GetAllCategoriesResponse>> => {
 	return httpClient(`categories?${buildCategoriesQuery(params, filters)}`, {
 		method: "get",

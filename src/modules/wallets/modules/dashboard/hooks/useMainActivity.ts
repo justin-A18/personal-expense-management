@@ -26,7 +26,7 @@ export const useMainActivity = () => {
 		return () => {
 			resetFilters();
 		};
-	}, [walletData]);
+	}, [resetFilters, setFilters, setParams, walletData]);
 
 	return {
 		walletData,

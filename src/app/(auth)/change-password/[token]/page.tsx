@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Form } from '@/modules/shared/ui/form';
-import { CenteredHeader } from '@/modules/shared/components/centered-header/CenteredHeader';
-import { CenteredLayout } from '@/modules/shared/components/centered-layout/CenteredLayout';
-import { CustomInput } from '@/modules/shared/components/custom-input/CustomInput';
-import { AuthActionButton } from '@/modules/auth/components/AuthActionButton';
-import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
-import { useResetPassword } from '@/modules/auth/hooks/useResetPassword';
+import { AuthActionButton } from "@/modules/auth/components/AuthActionButton";
+import { ACTIONS_AUTH_TYPE } from "@/modules/auth/enums/auth.enum";
+import { useResetPassword } from "@/modules/auth/hooks/useResetPassword";
+import { CenteredHeader } from "@/modules/shared/components/centered-header/CenteredHeader";
+import { CenteredLayout } from "@/modules/shared/components/centered-layout/CenteredLayout";
+import { CustomInput } from "@/modules/shared/components/custom-input/CustomInput";
+import { Form } from "@/modules/shared/ui/form";
 
 const ResetPasswordPage = () => {
 	const { form, handleSubmit, isPending } = useResetPassword();
@@ -14,27 +14,25 @@ const ResetPasswordPage = () => {
 	return (
 		<CenteredLayout>
 			<CenteredHeader
-				title='Nueva Contraseña'
-				subtitle='Ingresa tu nueva contraseña a continuación.'
+				title="Nueva Contraseña"
+				subtitle="Ingresa tu nueva contraseña a continuación."
 			/>
 			<Form {...form}>
-				<form
-					onSubmit={handleSubmit}
-					className='space-y-5 w-full'>
+				<form onSubmit={handleSubmit} className="space-y-5 w-full">
 					<CustomInput
 						control={form.control}
-						name='password'
-						label='Contraseña'
-						type='password'
-						placeholder='Ingresa tu contraseña'
+						name="password"
+						label="Contraseña"
+						type="password"
+						placeholder="Ingresa tu contraseña"
 					/>
 
 					<CustomInput
 						control={form.control}
-						name='confirmPassword'
-						label='Confirmar Contraseña'
-						type='password'
-						placeholder='Confirma tu contraseña'
+						name="confirmPassword"
+						label="Confirmar Contraseña"
+						type="password"
+						placeholder="Confirma tu contraseña"
 					/>
 					<AuthActionButton
 						disabled={isPending}

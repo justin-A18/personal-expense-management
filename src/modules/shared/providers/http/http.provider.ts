@@ -6,6 +6,7 @@ import {
   handleSessionExpired,
 } from "./interceptors";
 import { extractErrorMessage, isNetworkError } from "../../utils/http.utils";
+import { env } from "../../config/env.config";
 
 const axiosInstances: { [key: string]: AxiosInstance; } = {};
 
@@ -43,7 +44,7 @@ const getAxiosInstance = (baseURL: string, expectedType?: "File" | "Blob") => {
   return axiosInstances[baseURL];
 };
 
-const defaultInstance = getAxiosInstance(process.env.NEXT_PUBLIC_URL_BASE!);
+const defaultInstance = getAxiosInstance(env.NEXT_PUBLIC_URL_BASE);
 
 export class ExceptionHttpError extends Error {
   type!: string;

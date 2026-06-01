@@ -1,9 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleDollarSignIcon, PlusIcon, TagsIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { CustomControllerSelect } from "@/modules/shared/components/custom-controller-select/CustomControllerSelect";
 import { CustomDrawer } from "@/modules/shared/components/custom-drawer/CustomDrawer";
 import { CustomInput } from "@/modules/shared/components/custom-input/CustomInput";
@@ -13,10 +10,8 @@ import {
 	type CategoryIconKey,
 	getCategoryIcon,
 } from "../../const/category-icons";
-import {
-	type CreateCategorySchema,
-	createCategorySchema,
-} from "../../schema/category.schema";
+import { useCategoryDrawerForm } from "../../hooks/useCategoryDrawerForm";
+import type { CreateCategorySchema } from "../../schema/category.schema";
 import { CategoryIconPickerModal } from "../icon-picker/CategoryIconPickerModal";
 
 interface CreateCategoryDrawerProps {
@@ -27,13 +22,6 @@ interface CreateCategoryDrawerProps {
 	onSubmitCategory: (values: CreateCategorySchema) => Promise<void> | void;
 }
 
-const initialValues: CreateCategorySchema = {
-	description: "",
-	icon: "tags",
-	name: "",
-	type: "Gasto",
-};
-
 export const CreateCategoryDrawer = ({
 	closeDrawer,
 	initialCategory,
@@ -41,37 +29,21 @@ export const CreateCategoryDrawer = ({
 	isPending = false,
 	onSubmitCategory,
 }: CreateCategoryDrawerProps) => {
-	const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
-	const form = useForm<CreateCategorySchema>({
-		defaultValues: initialValues,
-		mode: "onChange",
-		resolver: zodResolver(createCategorySchema),
+	const {
+		form,
+		handleIconSelect,
+		handleSubmit,
+		isIconPickerOpen,
+		mode,
+		selectedIcon,
+		setIsIconPickerOpen,
+	} = useCategoryDrawerForm({
+		closeDrawer,
+		initialCategory,
+		isDrawerOpen,
+		onSubmitCategory,
 	});
-	const mode = initialCategory ? "edit" : "create";
-	const selectedIcon = form.watch("icon");
 	const SelectedIcon = getCategoryIcon(selectedIcon);
-
-	const handleSubmit = form.handleSubmit(async (values) => {
-		await onSubmitCategory(values);
-		form.reset(initialValues);
-		closeDrawer();
-	});
-
-	useEffect(() => {
-		if (!isDrawerOpen) return;
-
-		if (initialCategory) {
-			form.reset({
-				description: initialCategory.description,
-				icon: initialCategory.icon,
-				name: initialCategory.name,
-				type: initialCategory.type,
-			});
-			return;
-		}
-
-		form.reset(initialValues);
-	}, [form, initialCategory, isDrawerOpen]);
 
 	return (
 		<>
@@ -168,7 +140,7 @@ export const CreateCategoryDrawer = ({
 				isOpen={isIconPickerOpen}
 				selectedIcon={selectedIcon as CategoryIconKey}
 				onClose={() => setIsIconPickerOpen(false)}
-				onSelect={(icon) => form.setValue("icon", icon, { shouldDirty: true })}
+				onSelect={handleIconSelect}
 			/>
 		</>
 	);

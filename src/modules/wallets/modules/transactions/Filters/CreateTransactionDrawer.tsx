@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { CircleDollarSignIcon, PlusIcon, ReceiptTextIcon } from "lucide-react";
 import { CustomControllerSelect } from "@/modules/shared/components/custom-controller-select/CustomControllerSelect";
 import { CustomDatePicker } from "@/modules/shared/components/custom-date-picker/CustomDatePicker";
@@ -6,9 +5,9 @@ import { CustomDrawer } from "@/modules/shared/components/custom-drawer/CustomDr
 import { CustomInput } from "@/modules/shared/components/custom-input/CustomInput";
 import type { TransactionEntity } from "@/modules/shared/interfaces/entities/transaction.entity";
 import { Form } from "@/modules/shared/ui/form";
-import { getAllCategories } from "@/modules/wallets/services/categories.service";
+import { TRANSACTION_TYPES } from "@/modules/wallets/constants/catalogs.const";
 import { useCreateTransaction } from "../hooks/useCreateTransaction";
-import { SelectItemCategory } from "./SelectItemCategory";
+import { useTransactionCategoryOptions } from "../hooks/useTransactionCategoryOptions";
 
 interface CreateTransactionDrawerProps {
 	closeDrawer: () => void;
@@ -21,23 +20,9 @@ export const CreateTransactionDrawer = ({
 	initialTransaction,
 	isDrawerOpen,
 }: CreateTransactionDrawerProps) => {
-	const { form, handleSubmit, isPending, mode } = useCreateTransaction(
-		closeDrawer,
-		initialTransaction,
-		isDrawerOpen,
-	);
-	const { data: categories = [] } = useQuery({
-		initialData: [],
-		queryKey: ["categories", "transaction-drawer"],
-		queryFn: async () => {
-			const { data } = await getAllCategories(
-				{ name: null, type: null },
-				{ limit: 100, offset: 0 },
-			);
-
-			return data.content;
-		},
-	});
+	const { form, handleSubmit, isPending, mode, categoriesData } =
+		useCreateTransaction(closeDrawer, initialTransaction, isDrawerOpen);
+	const { categoryOptions } = useTransactionCategoryOptions(categoriesData);
 
 	return (
 		<CustomDrawer isOpen={isDrawerOpen} onClose={closeDrawer}>
@@ -69,10 +54,7 @@ export const CreateTransactionDrawer = ({
 							labelContent="Tipo de transacción"
 							placeholder="Selecciona un tipo"
 							className="w-full max-w-full bg-[#1e1e1e]"
-							items={[
-								{ label: "Gasto", value: "Gasto" },
-								{ label: "Ingreso", value: "Ingreso" },
-							]}
+							items={TRANSACTION_TYPES}
 						/>
 
 						<CustomControllerSelect
@@ -82,7 +64,7 @@ export const CreateTransactionDrawer = ({
 							labelContent="Categoría"
 							placeholder="Selecciona una categoría"
 							className="w-full max-w-full bg-[#1e1e1e]"
-							items={SelectItemCategory({ categories })}
+							items={categoryOptions}
 						/>
 
 						<CustomInput

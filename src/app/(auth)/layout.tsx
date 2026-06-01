@@ -1,8 +1,8 @@
-import { AuthenticatedGuard } from '@/modules/shared/guards/AuthenticatedGuard';
-import React from 'react';
+import type React from "react";
+import { AuthenticatedGuard } from "@/modules/shared/guards/AuthenticatedGuard";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
-	return <AuthenticatedGuard mode='guest'>{children}</AuthenticatedGuard>;
+	return <AuthenticatedGuard mode="guest">{children}</AuthenticatedGuard>;
 };
 
 export default AuthLayout;

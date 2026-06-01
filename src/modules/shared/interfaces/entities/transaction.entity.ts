@@ -1,6 +1,6 @@
-import { TRANSACTION_TYPE } from "@/modules/wallets/modules/dashboard/enums";
 import type { CategoryIconKey } from "@/modules/wallets/modules/categories/const/category-icons";
-import { WalletEntity } from "./wallet.entity";
+import type { TRANSACTION_TYPE } from "@/modules/wallets/modules/dashboard/enums";
+import type { WalletEntity } from "./wallet.entity";
 
 export interface TransactionEntity {
 	id: string;

@@ -1,0 +1,113 @@
+"use client";
+
+import { CircleDollarSignIcon, ReceiptTextIcon } from "lucide-react";
+import { ConfirmationModal } from "@/modules/shared/components/confirmation-modal/ConfirmationModal";
+import { DataTable } from "@/modules/shared/components/data-table/DataTable";
+import { Pagination } from "@/modules/shared/components/pagination/Pagination";
+import { Skeleton } from "@/modules/shared/ui/skeleton";
+import { TemplateResults } from "@/modules/wallets/components/TemplateResults/TemplateResults";
+import { WalletPageHeader } from "@/modules/wallets/components/WalletPageHeader/WalletPageHeader";
+import { WalletPanel } from "@/modules/wallets/components/WalletPanel/WalletPanel";
+import { WalletSection } from "@/modules/wallets/components/WalletSection/WalletSection";
+import { WalletSummaryCard } from "@/modules/wallets/components/WalletSummaryCard/WalletSummaryCard";
+import { WalletTableFooter } from "@/modules/wallets/components/WalletTableFooter/WalletTableFooter";
+import { CreateTransactionDrawer } from "../../Filters/CreateTransactionDrawer";
+import { Filters } from "../../Filters/Filters";
+import { useTransactionTable } from "../../hooks/useTransactionTable";
+
+export const TransactionsView = () => {
+	const {
+		columns,
+		handleCloseDrawer,
+		handleConfirmDelete,
+		handleOpenCreateDrawer,
+		isDeleting,
+		isDrawerOpen,
+		isFetchingTransactions,
+		params,
+		selectedTransaction,
+		setParams,
+		setTransactionToDelete,
+		totalElements,
+		totalPages,
+		transactionToDelete,
+		transactionsData,
+	} = useTransactionTable();
+
+	return (
+		<>
+			<WalletSection>
+				<WalletPageHeader
+					eyebrow="Movimientos"
+					title="Transacciones"
+					description="Consulta, filtra y registra los movimientos de tu billetera."
+					icon={<ReceiptTextIcon className="size-6" />}
+				/>
+
+				<div className="mt-5 grid gap-3 md:grid-cols-2">
+					<WalletSummaryCard
+						icon={<ReceiptTextIcon className="size-5" />}
+						label="Registros"
+						value={`${totalElements} transacciones`}
+					/>
+					<WalletSummaryCard
+						icon={<CircleDollarSignIcon className="size-5" />}
+						label="Vista actual"
+						value={`${transactionsData.length} visibles`}
+					/>
+				</div>
+
+				<WalletPanel className="mt-5">
+					<Filters onOpenCreateDrawer={handleOpenCreateDrawer} />
+				</WalletPanel>
+
+				<div className="mt-5 w-full space-y-4">
+					{isFetchingTransactions && transactionsData.length === 0 ? (
+						<Skeleton className="min-h-[calc(100vh-300px)] w-full rounded-2xl bg-white/[0.04]" />
+					) : (
+						<>
+							<DataTable
+								data={transactionsData}
+								columns={columns}
+								noDataComponent={
+									<TemplateResults
+										title="Sin actividad reciente"
+										description="Aún no hay movimientos registrados. Aquí aparecerán tus transacciones más recientes una vez empieces a operar."
+									/>
+								}
+							/>
+							<WalletTableFooter
+								label={`${totalElements} registros encontrados`}
+							>
+								<Pagination
+									onPageChange={setParams}
+									params={params}
+									totalElements={totalElements}
+									totalPages={totalPages}
+								/>
+							</WalletTableFooter>
+						</>
+					)}
+				</div>
+			</WalletSection>
+
+			<CreateTransactionDrawer
+				isDrawerOpen={isDrawerOpen}
+				initialTransaction={selectedTransaction}
+				closeDrawer={handleCloseDrawer}
+			/>
+
+			<ConfirmationModal
+				isOpen={Boolean(transactionToDelete)}
+				isLoading={isDeleting}
+				title="Eliminar transacción"
+				description={`Esta acción eliminará "${transactionToDelete?.description ?? ""}" y revertirá su efecto sobre el balance.`}
+				confirmLabel="Eliminar"
+				onClose={() => setTransactionToDelete(null)}
+				onConfirm={() => {
+					void handleConfirmDelete();
+				}}
+			/>
+		</>
+	);
+};

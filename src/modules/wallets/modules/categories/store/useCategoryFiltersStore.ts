@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import type { CategoryType } from "@/modules/wallets/interfaces/categories/category.interface";
 
-interface CategoryFilters {
-	name: string;
-	type: "" | CategoryType;
+export interface CategoryFilters {
+	name: string | null;
+	type: CategoryType | null;
 }
 
 interface CategoryFiltersStore {
@@ -15,8 +15,8 @@ interface CategoryFiltersStore {
 }
 
 const initialFilters: CategoryFilters = {
-	name: "",
-	type: "",
+	name: null,
+	type: null,
 };
 
 export const useCategoryFiltersStore = create<CategoryFiltersStore>((set) => ({

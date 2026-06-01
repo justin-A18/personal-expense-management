@@ -16,9 +16,9 @@ import { WalletPageHeader } from "@/modules/wallets/components/WalletPageHeader/
 import { WalletPanel } from "@/modules/wallets/components/WalletPanel/WalletPanel";
 import { WalletSection } from "@/modules/wallets/components/WalletSection/WalletSection";
 import { WalletSummaryCard } from "@/modules/wallets/components/WalletSummaryCard/WalletSummaryCard";
-import { useReports } from "../hooks/useReports";
-import { ReportsInsightCard } from "./ReportsInsightCard";
-import { ReportsMonthFilter } from "./ReportsMonthFilter";
+import { useReports } from "../../hooks/useReports";
+import { ReportsInsightCard } from "../ReportsInsightCard";
+import { ReportsMonthFilter } from "../ReportsMonthFilter";
 
 const chartConfig = {
 	expense: {

@@ -4,10 +4,6 @@ const envVars = z.object({
 	NEXT_PUBLIC_URL_BASE: z.string().url(),
 });
 
-envVars.parse(process.env);
-
-declare global {
-	namespace NodeJS {
-		interface ProcessEnv extends z.infer<typeof envVars> {}
-	}
-}
+export const env = envVars.parse({
+	NEXT_PUBLIC_URL_BASE: process.env.NEXT_PUBLIC_URL_BASE,
+});

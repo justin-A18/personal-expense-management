@@ -1,15 +1,7 @@
-'use client';
+import { DashboardView } from "@/modules/wallets/modules/dashboard/components/view/DashboardView";
 
-import { GridCardContainer } from '@/modules/wallets/modules/dashboard/components/grid-cards/GridCardContainer';
-import { MainActivity } from '@/modules/wallets/modules/dashboard/components/main-activity/MainActivity';
-
-const HomePage = () => {
-	return (
-		<section className='w-full min-h-[calc(100vh-135px)] grid grid-cols-1 2xl:grid-cols-3 2xl:grid-rows-4 gap-4'>
-			<MainActivity />
-			<GridCardContainer />
-		</section>
-	);
+const DashboardPage = () => {
+	return <DashboardView />;
 };
 
-export default HomePage;
+export default DashboardPage;

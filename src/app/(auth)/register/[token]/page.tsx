@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { AuthActionButton } from '@/modules/auth/components/AuthActionButton';
-import { CenteredLayout } from '@/modules/shared/components/centered-layout/CenteredLayout';
-import { CenteredHeader } from '@/modules/shared/components/centered-header/CenteredHeader';
-import { ACTIONS_AUTH_TYPE } from '@/modules/auth/enums/auth.enum';
-import { Spinner } from '@/modules/shared/components/spinner/Spinner';
-import { useValidateAccount } from '@/modules/auth/hooks/useValidateAccount';
+import { AuthActionButton } from "@/modules/auth/components/AuthActionButton";
+import { ACTIONS_AUTH_TYPE } from "@/modules/auth/enums/auth.enum";
+import { useValidateAccount } from "@/modules/auth/hooks/useValidateAccount";
+import { CenteredHeader } from "@/modules/shared/components/centered-header/CenteredHeader";
+import { CenteredLayout } from "@/modules/shared/components/centered-layout/CenteredLayout";
+import { Spinner } from "@/modules/shared/components/spinner/Spinner";
 
 const ValidateAccountPage = () => {
 	const { data, goToLogin, isFetching } = useValidateAccount();
@@ -13,10 +13,10 @@ const ValidateAccountPage = () => {
 	return (
 		<CenteredLayout>
 			<CenteredHeader
-				title={isFetching ? 'Verificando tu cuenta...' : 'Cuenta verificada'}
+				title={isFetching ? "Verificando tu cuenta..." : "Cuenta verificada"}
 				subtitle={
 					isFetching
-						? 'Espera un momento mientras confirmamos tu información.'
+						? "Espera un momento mientras confirmamos tu información."
 						: data?.message
 				}
 			/>

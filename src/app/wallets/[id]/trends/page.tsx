@@ -1,4 +1,4 @@
-import { TrendsView } from "@/modules/wallets/modules/trends/components/TrendsView";
+import { TrendsView } from "@/modules/wallets/modules/trends/components/view/TrendsView";
 
 const TrendsPage = () => {
 	return <TrendsView />;

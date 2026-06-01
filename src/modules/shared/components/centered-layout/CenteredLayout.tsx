@@ -1,8 +1,7 @@
 'use client';
 
-import { ArrowLeft, LogOutIcon } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../../store/useAuthStore';
 
 interface CenteredLayoutProps {
 	children: React.ReactNode;

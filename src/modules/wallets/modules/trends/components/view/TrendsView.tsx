@@ -15,12 +15,12 @@ import { Skeleton } from "@/modules/shared/ui/skeleton";
 import { WalletPageHeader } from "@/modules/wallets/components/WalletPageHeader/WalletPageHeader";
 import { WalletPanel } from "@/modules/wallets/components/WalletPanel/WalletPanel";
 import { WalletSection } from "@/modules/wallets/components/WalletSection/WalletSection";
-import { useTrends } from "../hooks/useTrends";
-import { hasTrendData } from "../utils/trends-formatters";
-import { TrendsCategoryList } from "./TrendsCategoryList";
-import { TrendsComparisonFilter } from "./TrendsComparisonFilter";
-import { TrendsInsights } from "./TrendsInsights";
-import { TrendsMetricCard } from "./TrendsMetricCard";
+import { useTrends } from "../../hooks/useTrends";
+import { hasTrendData } from "../../utils/trends-formatters";
+import { TrendsCategoryList } from "../TrendsCategoryList";
+import { TrendsComparisonFilter } from "../TrendsComparisonFilter";
+import { TrendsInsights } from "../TrendsInsights";
+import { TrendsMetricCard } from "../TrendsMetricCard";
 
 const temporalChartConfig = {
 	expense: {

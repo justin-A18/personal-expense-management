@@ -21,9 +21,8 @@ export const useRegisterUser = () => {
 		mode: "onChange",
 	});
 
-	const onSubmit = async (values: RegisterSchema) => {
-		const { confirmPassword, ...rest } = values;
-		await mutateAsync(rest);
+	const onSubmit = async ({ username, email, password }: RegisterSchema) => {
+		await mutateAsync({ username, email, password });
 	};
 
 	const { mutateAsync, isPending } = useMutation({

@@ -20,7 +20,8 @@ export interface CategoryBody {
 
 export interface GetAllCategoriesRequest {
 	name?: string | null;
-	type?: CategoryType | null;
+	type?: CategoryType | string | null;
+	walletId: string;
 }
 
 export interface GetAllCategoriesResponse {

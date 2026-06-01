@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import type { TransactionEntity } from "@/modules/shared/interfaces/entities/transaction.entity";
 import { deleteTransaction } from "@/modules/wallets/services/transactions.service";
 
-export const useTransactionMutations = (onSuccess?: () => void) => {
+export const useTransactionDelete = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 
 	const deleteMutation = useMutation({

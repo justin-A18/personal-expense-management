@@ -1,4 +1,4 @@
-import { Controller, Control } from 'react-hook-form';
+import { Controller, type Control, type FieldValues, type Path } from 'react-hook-form';
 import { Label } from '../../ui/label';
 import { CheckIcon, PiggyBankIcon, WalletIcon } from 'lucide-react';
 
@@ -17,22 +17,21 @@ export const AVATARS = [
 	},
 ];
 
-interface AvatarControllerProps {
-	control: Control<any>;
-	name: string;
+interface AvatarControllerProps<T extends FieldValues> {
+	control: Control<T>;
+	name: Path<T>;
 	label?: string;
 }
 
-export const CustomSelectAvatar = ({
+export const CustomSelectAvatar = <T extends FieldValues>({
 	control,
 	name,
 	label,
-}: AvatarControllerProps) => {
+}: AvatarControllerProps<T>) => {
 	return (
 		<Controller
 			control={control}
 			name={name}
-			defaultValue={AVATARS[0].url}
 			render={({ field }) => (
 				<div className='flex flex-col gap-3 font-medium text-[#aaaaaa]'>
 					{label && <Label>{label}</Label>}

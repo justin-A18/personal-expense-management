@@ -5,13 +5,15 @@ import { CustomControllerSelect } from "@/modules/shared/components/custom-contr
 import { CustomDrawer } from "@/modules/shared/components/custom-drawer/CustomDrawer";
 import { CustomInput } from "@/modules/shared/components/custom-input/CustomInput";
 import { Form } from "@/modules/shared/ui/form";
-import type { CategoryEntity } from "@/modules/wallets/interfaces/categories/category.interface";
+import type {
+	CategoryBody,
+	CategoryEntity,
+} from "@/modules/wallets/interfaces/categories/category.interface";
 import {
 	type CategoryIconKey,
 	getCategoryIcon,
 } from "../../const/category-icons";
 import { useCategoryDrawerForm } from "../../hooks/useCategoryDrawerForm";
-import type { CreateCategorySchema } from "../../schema/category.schema";
 import { CategoryIconPickerModal } from "../icon-picker/CategoryIconPickerModal";
 
 interface CreateCategoryDrawerProps {
@@ -19,7 +21,7 @@ interface CreateCategoryDrawerProps {
 	initialCategory?: CategoryEntity | null;
 	isDrawerOpen: boolean;
 	isPending?: boolean;
-	onSubmitCategory: (values: CreateCategorySchema) => Promise<void> | void;
+	onSubmitCategory: (values: CategoryBody) => Promise<void> | void;
 }
 
 export const CreateCategoryDrawer = ({

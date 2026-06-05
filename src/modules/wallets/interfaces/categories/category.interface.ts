@@ -16,6 +16,7 @@ export interface CategoryBody {
 	icon: CategoryIconKey;
 	name: string;
 	type: CategoryType;
+	walletId: string;
 }
 
 export interface GetAllCategoriesRequest {

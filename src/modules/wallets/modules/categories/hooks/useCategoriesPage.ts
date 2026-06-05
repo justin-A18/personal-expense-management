@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
-import type { CategoryEntity } from "@/modules/wallets/interfaces/categories/category.interface";
+import type {
+	CategoryBody,
+	CategoryEntity,
+} from "@/modules/wallets/interfaces/categories/category.interface";
 import { useGetAllCategories } from "@/modules/wallets/hooks/useGetAllCategories";
 import { createCategoriesColumns } from "../components/columns/categories.column";
-import type { CreateCategorySchema } from "../schema/category.schema";
 import { useCategoryMutations } from "./useCategoryMutations";
 
 export const useCategoriesPage = () => {
@@ -43,7 +45,7 @@ export const useCategoriesPage = () => {
 		setSelectedCategory(null);
 	};
 
-	const handleSubmitCategory = async (values: CreateCategorySchema) => {
+	const handleSubmitCategory = async (values: CategoryBody) => {
 		if (selectedCategory) {
 			await updateCategory({ body: values, id: selectedCategory.id });
 			return;

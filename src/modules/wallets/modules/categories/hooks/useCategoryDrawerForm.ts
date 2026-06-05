@@ -1,7 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { CategoryEntity } from "@/modules/wallets/interfaces/categories/category.interface";
+import { toast } from "sonner";
+import type {
+	CategoryBody,
+	CategoryEntity,
+} from "@/modules/wallets/interfaces/categories/category.interface";
+import { useWalletStore } from "@/modules/wallets/store/useWalletStore";
 import {
 	type CreateCategorySchema,
 	createCategorySchema,
@@ -11,7 +16,7 @@ interface UseCategoryDrawerFormParams {
 	closeDrawer: () => void;
 	initialCategory?: CategoryEntity | null;
 	isDrawerOpen: boolean;
-	onSubmitCategory: (values: CreateCategorySchema) => Promise<void> | void;
+	onSubmitCategory: (values: CategoryBody) => Promise<void> | void;
 }
 
 const initialValues: CreateCategorySchema = {
@@ -28,6 +33,7 @@ export const useCategoryDrawerForm = ({
 	onSubmitCategory,
 }: UseCategoryDrawerFormParams) => {
 	const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
+	const wallet = useWalletStore((state) => state.wallet);
 	const form = useForm<CreateCategorySchema>({
 		defaultValues: initialValues,
 		mode: "onChange",
@@ -37,7 +43,15 @@ export const useCategoryDrawerForm = ({
 	const selectedIcon = form.watch("icon");
 
 	const handleSubmit = form.handleSubmit(async (values) => {
-		await onSubmitCategory(values);
+		if (!wallet?.id) {
+			toast.error("Selecciona una billetera antes de guardar la categoria");
+			return;
+		}
+
+		await onSubmitCategory({
+			...values,
+			walletId: wallet.id,
+		});
 		form.reset(initialValues);
 		closeDrawer();
 	});
